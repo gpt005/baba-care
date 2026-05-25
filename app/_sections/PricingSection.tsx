@@ -39,9 +39,9 @@ const TIERS: PricingTier[] = [
     title: "Day care & boarding (our home)",
     tone: "pink",
     rows: [
-      { label: "Half day", price: "$30" },
-      { label: "Full day", price: "$50" },
-      { label: "Overnight", price: "$60" },
+      { label: "Half day", price: "$35" },
+      { label: "Full day", price: "$60" },
+      { label: "Overnight", price: "$70" },
     ],
     notes: [
       "Doggies get an enclosed yard + walks",
@@ -109,14 +109,16 @@ export function PricingSection() {
 
         <div className="mt-10 grid gap-3 text-center font-body text-sm text-ink/70 md:text-base">
           <p>Holiday rate: +$5 to $10 per service</p>
-          <p>Additional pet: +$5 to $25 per pet · Puppy rate: +$5 per service</p>
+          <p>
+            Additional pet: +$5 to $25 per pet · Puppy rate: +$5 per service
+          </p>
         </div>
 
         <p className="mt-8 mx-auto max-w-2xl rounded-3xl bg-sage/40 border border-sage-deep/20 px-6 py-5 text-center font-rounded text-sm md:text-base text-ink/85 flex items-center justify-center gap-2 flex-wrap">
           <HeartIcon size={18} className="text-pink-deepest" />
           <span>
-            <strong className="font-semibold">2% of proceeds</strong> goes to the
-            Humane Society of Huron Valley (
+            <strong className="font-semibold">2% of proceeds</strong> goes to
+            the Humane Society of Huron Valley (
             <a
               className="underline decoration-dotted underline-offset-2 hover:text-pink-deepest transition-colors"
               href="https://www.hshv.org"
