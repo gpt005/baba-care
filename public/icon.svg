@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+  <style>
+    .bg { fill: #2b2a28; }
+    .fg { fill: #e0aab6; }
+    .fg-stroke { stroke: #e0aab6; fill: none; }
+    @media (prefers-color-scheme: light) {
+      .bg { fill: #e0aab6; }
+      .fg { fill: #2b2a28; }
+      .fg-stroke { stroke: #2b2a28; fill: none; }
+    }
+  </style>
+
+  <rect class="bg" width="400" height="400" rx="60"/>
+
+  <defs>
+    <path id="petcare-arc" d="M 118,180 A 90,90 0 0,1 282,180"/>
+  </defs>
+
+  <!-- PET CARE curved text -->
+  <text
+    class="fg"
+    font-family="'Arial', 'Helvetica Neue', sans-serif"
+    font-size="16"
+    font-weight="700"
+    letter-spacing="5"
+  >
+    <textPath href="#petcare-arc" startOffset="50%" text-anchor="middle">PET CARE</textPath>
+  </text>
+
+  <!-- ── DOG FACE  (centred ~150, 170) ── -->
+  <circle class="fg-stroke" cx="150" cy="170" r="46" stroke-width="5"/>
+  <!-- Left floppy ear -->
+  <path
+    class="fg-stroke"
+    d="M 112,148 Q 92,124 100,98 Q 108,80 122,92 Q 132,106 124,138"
+    stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
+  />
+  <!-- Right floppy ear -->
+  <path
+    class="fg-stroke"
+    d="M 188,148 Q 208,124 200,98 Q 192,80 178,92 Q 168,106 176,138"
+    stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
+  />
+  <!-- Eyes -->
+  <circle class="fg" cx="137" cy="163" r="4.5"/>
+  <circle class="fg" cx="163" cy="163" r="4.5"/>
+  <!-- Nose -->
+  <ellipse class="fg" cx="150" cy="182" rx="9" ry="6.5"/>
+  <!-- Mouth -->
+  <path class="fg-stroke" d="M 150,189 Q 142,199 137,196" stroke-width="4" stroke-linecap="round"/>
+  <path class="fg-stroke" d="M 150,189 Q 158,199 163,196" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- ── CAT FACE  (centred ~258, 168) ── -->
+  <circle class="fg-stroke" cx="258" cy="168" r="44" stroke-width="5"/>
+  <!-- Left ear -->
+  <path
+    class="fg-stroke"
+    d="M 225,144 L 232,104 L 250,134"
+    stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
+  />
+  <!-- Right ear -->
+  <path
+    class="fg-stroke"
+    d="M 291,144 L 284,104 L 266,134"
+    stroke-width="5" stroke-linecap="round" stroke-linejoin="round"
+  />
+  <!-- Sleepy/closed eyes -->
+  <path class="fg-stroke" d="M 236,164 Q 244,154 252,164" stroke-width="4" stroke-linecap="round"/>
+  <path class="fg-stroke" d="M 264,164 Q 272,154 280,164" stroke-width="4" stroke-linecap="round"/>
+  <!-- Nose -->
+  <path class="fg" d="M 254,176 L 262,176 L 258,182 Z"/>
+  <!-- Whiskers -->
+  <line class="fg-stroke" x1="214" y1="174" x2="247" y2="175" stroke-width="2.5" stroke-linecap="round"/>
+  <line class="fg-stroke" x1="214" y1="181" x2="247" y2="180" stroke-width="2.5" stroke-linecap="round"/>
+  <line class="fg-stroke" x1="269" y1="175" x2="302" y2="174" stroke-width="2.5" stroke-linecap="round"/>
+  <line class="fg-stroke" x1="269" y1="180" x2="302" y2="181" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- ── "baba" wordmark ── -->
+  <text
+    class="fg"
+    x="200" y="308"
+    text-anchor="middle"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="108"
+    font-weight="700"
+  >baba</text>
+</svg>
