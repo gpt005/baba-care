@@ -9,14 +9,7 @@ export function StickyMobileBar() {
       className="md:hidden fixed inset-x-0 bottom-0 z-30 border-t border-ink/10 bg-cream/95 backdrop-blur-md shadow-[0_-6px_18px_-10px_rgba(43,42,40,0.25)]"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
     >
-      <div className="grid grid-cols-3 gap-2 p-3">
-        <a
-          href={TEL_HREF}
-          className="flex flex-col items-center justify-center gap-1 rounded-2xl bg-pink-deepest px-3 py-3 text-cream font-rounded text-xs font-semibold shadow-[0_4px_10px_-4px_rgba(217,126,145,0.6)] active:scale-95 transition-transform"
-        >
-          <PhoneIcon size={20} />
-          Call
-        </a>
+      <div className="grid grid-cols-2 gap-2 p-3">
         <a
           href={SMS_HREF}
           className="flex flex-col items-center justify-center gap-1 rounded-2xl bg-cream border border-ink/15 px-3 py-3 text-ink font-rounded text-xs font-semibold active:scale-95 transition-transform"

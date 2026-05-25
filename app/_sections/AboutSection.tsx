@@ -22,18 +22,18 @@ export function AboutSection() {
               alt="Milo the dog"
               width={220}
               height={220}
-              className="absolute -bottom-32 -right-4 md:-bottom-40 md:-right-8 w-40 md:w-52 h-auto rounded-2xl border-4 border-cream shadow-[0_12px_30px_-12px_rgba(43,42,40,0.45)] [transform:rotate(4deg)]"
+              className="absolute -bottom-4 -left-4 lg:left-auto lg:-right-8 lg:-bottom-40 w-40 lg:w-52 h-auto rounded-2xl border-4 border-cream shadow-[0_12px_30px_-12px_rgba(43,42,40,0.45)] transform-[rotate(4deg)]"
             />
             <div
               aria-hidden="true"
-              className="absolute -top-4 -left-4 text-4xl motion-safe:animate-float"
+              className="absolute -top-4 -right-4 lg:right-auto lg:-left-4 text-4xl motion-safe:animate-float"
               style={{ "--tilt": "-8deg" } as React.CSSProperties}
             >
               🐈‍⬛
             </div>
             <div
               aria-hidden="true"
-              className="absolute -bottom-36 -right-8 md:-bottom-44 md:-right-12 text-4xl motion-safe:animate-float"
+              className="absolute -bottom-8 -left-8 lg:left-auto lg:-right-12 lg:-bottom-44 text-4xl motion-safe:animate-float"
               style={
                 {
                   "--tilt": "10deg",
