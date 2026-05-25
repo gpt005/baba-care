@@ -7,16 +7,25 @@ export const SITE = {
 
   city: "Ann Arbor",
   state: "MI",
-  serviceArea: ["Ann Arbor", "Ypsilanti", "Saline", "Dexter", "Pittsfield Township", "Scio Township"],
+  serviceArea: [
+    "Ann Arbor",
+    "Ypsilanti",
+    "Saline",
+    "Dexter",
+    "Pittsfield Township",
+    "Scio Township",
+  ],
 
-  phoneDisplay: "(734) 555-0123",
-  phoneE164: "+17345550123",
+  phoneDisplay: "(415) 335-2462",
+  phoneE164: "+14153352462",
 
-  email: "hello@babapetcare.com",
+  email: "baba.care@zohomail.com",
   instagramHandle: "@baba.mypetcare",
   instagramUrl: "https://www.instagram.com/baba.mypetcare/",
-  roverUrl: "https://www.rover.com/members/wutt-hmone-kyi/",
-  intakeFormUrl: "https://forms.gle/REPLACE_WITH_REAL_INTAKE_FORM",
+  roverUrl:
+    "https://www.rover.com/promos/wuttht72034?utm_medium=direct&utm_campaign=977262825&utm_content=ssp&utm_source=sit-link&utm_term=gW4wwGzQ",
+  intakeFormUrl:
+    "https://docs.google.com/forms/d/e/1FAIpQLSeUpPO8vKmiJskO89Mz1Hc4zeJs-U24gqS6mJntliNlTesXpA/viewform",
 
   insuranceCarrier: "Pet Care Insurance",
 
@@ -24,12 +33,12 @@ export const SITE = {
     {
       name: "Woof Dog Products",
       blurb: "10% off with code: baba",
-      url: "https://example.com/woof",
+      url: "https://go.shopyourlikes.com/pi/da89c15340aaf278d2b2aa562970da532ca1b9ef?afId=727808&afCampaignId=540887445&afCreativeId=2993&afPlacementId=70dff4b7-0d7d-4ee2-acf6-d873c6002de2",
     },
     {
       name: "Brooks & Roo",
       blurb: "Handmade pet accessories",
-      url: "https://example.com/brooksandroo",
+      url: "https://www.brooksandroo.com/discount/YYEQCOIVTC?ref=WUTTHMONEKYI",
     },
   ],
 } as const;

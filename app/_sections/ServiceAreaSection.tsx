@@ -19,7 +19,7 @@ export function ServiceAreaSection() {
                   <span className="text-pink-deepest">Washtenaw County</span>
                 </>
               }
-              subtitle="Based in Ann Arbor, we serve homes within roughly a 15-mile radius. Outside the list? Send us a note — we&apos;ll do our best."
+              subtitle="Based in Ann Arbor, we serve homes within roughly a 15-mile radius. Outside the list? Send us a note — we'll do our best."
             />
             <ul className="grid grid-cols-2 gap-2 md:gap-3 max-w-md">
               {SITE.serviceArea.map((area) => (
@@ -46,13 +46,35 @@ export function ServiceAreaSection() {
                 preserveAspectRatio="xMidYMid slice"
               >
                 <defs>
-                  <pattern id="mapgrid" width="20" height="20" patternUnits="userSpaceOnUse">
-                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#2b2a2820" strokeWidth="1" />
+                  <pattern
+                    id="mapgrid"
+                    width="20"
+                    height="20"
+                    patternUnits="userSpaceOnUse"
+                  >
+                    <path
+                      d="M 20 0 L 0 0 0 20"
+                      fill="none"
+                      stroke="#2b2a2820"
+                      strokeWidth="1"
+                    />
                   </pattern>
                 </defs>
                 <rect width="200" height="200" fill="url(#mapgrid)" />
-                <path d="M20 60 Q 60 50 100 80 T 180 100" stroke="#8aa478" strokeWidth="2" fill="none" opacity="0.6" />
-                <path d="M30 130 Q 80 110 130 150 T 200 160" stroke="#d97e91" strokeWidth="2" fill="none" opacity="0.6" />
+                <path
+                  d="M20 60 Q 60 50 100 80 T 180 100"
+                  stroke="#8aa478"
+                  strokeWidth="2"
+                  fill="none"
+                  opacity="0.6"
+                />
+                <path
+                  d="M30 130 Q 80 110 130 150 T 200 160"
+                  stroke="#d97e91"
+                  strokeWidth="2"
+                  fill="none"
+                  opacity="0.6"
+                />
               </svg>
               <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 inline-flex items-center gap-2 rounded-full bg-cream px-4 py-2 font-rounded text-sm font-semibold text-ink shadow-[0_6px_18px_-6px_rgba(43,42,40,0.3)]">
                 <MapPinIcon size={16} className="text-pink-deepest" />
@@ -65,7 +87,16 @@ export function ServiceAreaSection() {
               <span className="absolute left-[78%] top-[78%] h-3 w-3 rounded-full bg-sage-deep shadow-[0_0_0_4px_rgba(138,164,120,0.25)]" />
             </div>
             <p className="mt-3 text-center font-body text-xs text-ink/55">
-              Illustrative service map — get in touch if you&apos;re unsure.
+              Illustrative service map —{" "}
+              <a
+                href="https://www.google.com/maps/search/Ann+Arbor,+MI/@42.2808256,-83.7430378,12z"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline underline-offset-2 hover:text-pink-deepest transition-colors"
+              >
+                view on Google Maps
+              </a>{" "}
+              or get in touch if you&apos;re unsure.
             </p>
           </div>
         </div>

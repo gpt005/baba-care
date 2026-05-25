@@ -18,7 +18,7 @@ type Service = {
 const SERVICES: Service[] = [
   {
     title: "Drop-ins",
-    blurb: "We'll gladly feed, scoop, and play with your fur-baby in the comfort of their own home.",
+    blurb: "We'll feed, scoop, and play with your fur-baby right at home.",
     tone: "yellow",
     placeholderTone: "yellow",
     emoji: "🐶",
@@ -42,7 +42,8 @@ const SERVICES: Service[] = [
   },
   {
     title: "House sitting",
-    blurb: "We'll ensure your fur baby never misses a beat in their daily routine.",
+    blurb:
+      "We'll ensure your fur baby never misses a beat in their daily routine.",
     tone: "sage",
     placeholderTone: "sage",
     emoji: "🏠",
@@ -85,11 +86,15 @@ export function ServicesSection() {
                 />
               </div>
               <div className="p-6 md:p-7 text-center space-y-2">
-                <p className="text-3xl" aria-hidden="true">{s.emoji}</p>
+                <p className="text-3xl" aria-hidden="true">
+                  {s.emoji}
+                </p>
                 <h3 className="font-rounded text-xl md:text-2xl font-semibold uppercase tracking-wide">
                   {s.title}
                 </h3>
-                <p className="font-body text-sm md:text-base text-ink/80">{s.blurb}</p>
+                <p className="font-body text-sm md:text-base text-ink/80">
+                  {s.blurb}
+                </p>
                 <a
                   href="#pricing"
                   className="inline-flex items-center gap-1 font-rounded text-sm font-semibold text-ink/80 hover:text-pink-deepest transition-colors mt-2"
