@@ -1,7 +1,7 @@
+import Image from "next/image";
 import { Container } from "../_components/Container";
 import { Section } from "../_components/Section";
 import { SectionHeading } from "../_components/SectionHeading";
-import { Placeholder } from "../_components/Placeholder";
 import { cn } from "../_lib/cn";
 
 type Tone = "yellow" | "blue" | "pink" | "sage";
@@ -10,9 +10,9 @@ type Service = {
   title: string;
   blurb: string;
   tone: Tone;
-  placeholderTone: "yellow" | "blue" | "pink" | "sage";
   emoji: string;
-  imageLabel: string;
+  image: string;
+  alt: string;
 };
 
 const SERVICES: Service[] = [
@@ -20,34 +20,34 @@ const SERVICES: Service[] = [
     title: "Drop-ins",
     blurb: "We'll feed, scoop, and play with your fur-baby right at home.",
     tone: "yellow",
-    placeholderTone: "yellow",
     emoji: "🐶",
-    imageLabel: "Doodle puppy mid-pat",
+    image: "/photos/drop_ins.jpg",
+    alt: "Doodle puppy mid-pat",
   },
   {
     title: "Dog walking",
     blurb: "Rain or shine, we make sure your fur-baby gets their steps in.",
     tone: "blue",
-    placeholderTone: "blue",
     emoji: "🐕",
-    imageLabel: "Basset hound on a winter walk",
+    image: "/photos/dog_walking.jpeg",
+    alt: "Basset hound on a winter walk",
   },
   {
     title: "Boarding",
     blurb: "We guarantee pets, pampering, and a fully enclosed yard every day.",
     tone: "pink",
-    placeholderTone: "pink",
     emoji: "🐾",
-    imageLabel: "Two dogs cozy on a quilt",
+    image: "/photos/house_sitting.jpg",
+    alt: "Two dogs cozy on a quilt",
   },
   {
     title: "House sitting",
     blurb:
       "We'll ensure your fur baby never misses a beat in their daily routine.",
     tone: "sage",
-    placeholderTone: "sage",
     emoji: "🏠",
-    imageLabel: "Wutt at home with a poodle",
+    image: "/photos/house-sitting.jpeg",
+    alt: "Wutt at home with a poodle",
   },
 ];
 
@@ -76,13 +76,13 @@ export function ServicesSection() {
                 TONE_BG[s.tone],
               )}
             >
-              <div className="aspect-[4/3] overflow-hidden">
-                <Placeholder
-                  label={s.imageLabel}
-                  tone={s.placeholderTone}
-                  aspect="4/3"
-                  rounded="3xl"
-                  className="!rounded-none border-0 transition-transform duration-500 group-hover:scale-[1.04]"
+              <div className="relative aspect-4/3 overflow-hidden">
+                <Image
+                  src={s.image}
+                  alt={s.alt}
+                  fill
+                  className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                  sizes="(min-width: 640px) 50vw, 100vw"
                 />
               </div>
               <div className="p-6 md:p-7 text-center space-y-2">

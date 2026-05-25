@@ -1,6 +1,6 @@
+import Image from "next/image";
 import { Container } from "../_components/Container";
 import { Button } from "../_components/Button";
-import { Placeholder } from "../_components/Placeholder";
 import { SpeechBubble } from "../_components/SpeechBubble";
 import { PhoneIcon, PawIcon } from "../_components/Icons";
 import { SITE, TEL_HREF } from "../_lib/site";
@@ -33,13 +33,13 @@ export function HeroSection() {
             </p>
             <h1 className="font-display text-5xl sm:text-6xl md:text-7xl leading-[1.05] text-ink">
               We provide a{" "}
-              <span className="text-pink-deepest">home away from home</span>{" "}
-              for your <span className="text-sage-deep">fur-babies</span>.
+              <span className="text-pink-deepest">home away from home</span> for
+              your <span className="text-sage-deep">fur-babies</span>.
             </h1>
             <p className="font-body text-base md:text-lg leading-relaxed text-ink/75 max-w-xl mx-auto lg:mx-0">
-              One-on-one, home-style pet care from a CPR-certified husband-and-wife
-              team. Drop-ins, dog walks, boarding, and house sitting — with daily
-              photo updates so you never miss a wag.
+              One-on-one, home-style pet care from a CPR-certified
+              husband-and-wife team. Drop-ins, dog walks, boarding, and house
+              sitting — with daily photo updates so you never miss a wag.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center lg:items-start justify-center lg:justify-start">
               <Button href={SITE.intakeFormUrl} size="lg">
@@ -58,23 +58,26 @@ export function HeroSection() {
           <div className="order-1 lg:order-2 relative">
             <div className="relative mx-auto max-w-sm md:max-w-md lg:max-w-none [transform:rotate(-1.5deg)]">
               <div className="absolute -inset-4 rounded-[40px] bg-cream shadow-[0_24px_60px_-30px_rgba(43,42,40,0.35)] -z-10" />
-              <Placeholder
-                label="Gary + Wutt with their fur-baby"
-                tone="pink"
-                aspect="4/5"
-                rounded="3xl"
-                className="border-2 border-ink/10"
-              />
+              <div className="relative w-full aspect-4/5 overflow-hidden rounded-3xl border-2 border-ink/10 bg-pink-soft/30">
+                <Image
+                  src="/photos/gary_and_wutt.jpg"
+                  alt="Gary and Wutt smiling together outdoors"
+                  fill
+                  className="object-cover"
+                  sizes="(min-width: 1024px) 36rem, (min-width: 768px) 32rem, 100vw"
+                  priority
+                />
+              </div>
 
               <div className="absolute -top-6 -left-6 md:-top-8 md:-left-10">
                 <SpeechBubble tilt={-6} tailSide="left">
-                  I&apos;m Gary!
+                  I&apos;m Wutt!
                 </SpeechBubble>
               </div>
 
               <div className="absolute -bottom-6 -right-4 md:-bottom-8 md:-right-8">
                 <SpeechBubble tilt={5} tailSide="right">
-                  I&apos;m Wutt!
+                  I&apos;m Gary!
                 </SpeechBubble>
               </div>
 
@@ -88,7 +91,12 @@ export function HeroSection() {
               <div
                 aria-hidden="true"
                 className="absolute bottom-2 -left-8 md:-left-12 text-4xl md:text-5xl motion-safe:animate-float"
-                style={{ "--tilt": "-18deg", animationDelay: "1.2s" } as React.CSSProperties}
+                style={
+                  {
+                    "--tilt": "-18deg",
+                    animationDelay: "1.2s",
+                  } as React.CSSProperties
+                }
               >
                 🦴
               </div>

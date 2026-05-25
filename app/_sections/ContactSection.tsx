@@ -1,7 +1,7 @@
+import Image from "next/image";
 import { Container } from "../_components/Container";
 import { Section } from "../_components/Section";
 import { Button } from "../_components/Button";
-import { Placeholder } from "../_components/Placeholder";
 import {
   InstagramIcon,
   PhoneIcon,
@@ -22,7 +22,9 @@ export function ContactSection() {
             </p>
             <h2 className="font-display text-4xl md:text-5xl lg:text-6xl leading-tight">
               Ready to meet your{" "}
-              <span className="text-pink-deepest">pet&apos;s next favorite person?</span>
+              <span className="text-pink-deepest">
+                pet&apos;s next favorite person?
+              </span>
             </h2>
             <p className="font-body text-base md:text-lg leading-relaxed text-ink/80 max-w-xl mx-auto lg:mx-0">
               Most replies in under an hour. Meet &amp; greets are always free.
@@ -69,13 +71,15 @@ export function ContactSection() {
 
           <div className="relative">
             <div className="absolute -inset-4 rounded-[40px] bg-pink-soft/45 -z-10 [transform:rotate(-2deg)]" />
-            <Placeholder
-              label="Wutt with a happy shiba"
-              tone="cream"
-              aspect="4/5"
-              rounded="3xl"
-              className="border-2 border-ink/10"
-            />
+            <div className="relative aspect-4/5 overflow-hidden rounded-3xl border-2 border-ink/10">
+              <Image
+                src="/photos/Christmas.png"
+                alt="Wutt with the pups at Christmas"
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 36rem, (min-width: 768px) 32rem, 100vw"
+              />
+            </div>
             <div
               aria-hidden="true"
               className="absolute -top-6 right-2 inline-flex items-center gap-2 rounded-full bg-cream border-2 border-ink/85 px-4 py-2 font-display text-xl text-ink shadow-[3px_4px_0_rgba(43,42,40,0.85)] [transform:rotate(-4deg)] motion-safe:animate-float"

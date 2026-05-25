@@ -1,6 +1,6 @@
+import Image from "next/image";
 import { Container } from "../_components/Container";
 import { Section } from "../_components/Section";
-import { Placeholder } from "../_components/Placeholder";
 import { PawIcon } from "../_components/Icons";
 
 export function AboutSection() {
@@ -10,18 +10,38 @@ export function AboutSection() {
         <div className="grid items-center gap-10 md:gap-14 lg:grid-cols-2">
           <div className="relative mx-auto max-w-md lg:max-w-none">
             <div className="absolute -inset-4 rounded-[40px] bg-pink-soft/40 -z-10 [transform:rotate(2deg)]" />
-            <Placeholder
-              label="Tux the tuxedo cat in a lace collar"
-              tone="cream"
-              aspect="4/3"
-              rounded="3xl"
+            <Image
+              src="/photos/lucky.jpg"
+              alt="Lucky the tuxedo cat in a lace collar"
+              width={400}
+              height={300}
+              className="rounded-3xl"
+            />
+            <Image
+              src="/photos/milo.jpg"
+              alt="Milo the dog"
+              width={220}
+              height={220}
+              className="absolute -bottom-32 -right-4 md:-bottom-40 md:-right-8 w-40 md:w-52 h-auto rounded-2xl border-4 border-cream shadow-[0_12px_30px_-12px_rgba(43,42,40,0.45)] [transform:rotate(4deg)]"
             />
             <div
               aria-hidden="true"
-              className="absolute -bottom-4 -right-4 text-4xl motion-safe:animate-float"
-              style={{ "--tilt": "8deg" } as React.CSSProperties}
+              className="absolute -top-4 -left-4 text-4xl motion-safe:animate-float"
+              style={{ "--tilt": "-8deg" } as React.CSSProperties}
             >
               🐈‍⬛
+            </div>
+            <div
+              aria-hidden="true"
+              className="absolute -bottom-36 -right-8 md:-bottom-44 md:-right-12 text-4xl motion-safe:animate-float"
+              style={
+                {
+                  "--tilt": "10deg",
+                  animationDelay: "0.8s",
+                } as React.CSSProperties
+              }
+            >
+              🐕
             </div>
           </div>
 
