@@ -19,7 +19,7 @@ export function ServiceAreaSection() {
                   <span className="text-pink-deepest">Washtenaw County</span>
                 </>
               }
-              subtitle="Based in Ann Arbor, we serve homes within roughly a 15-mile radius. Outside the list? Send us a note — we'll do our best."
+              subtitle="Based in Ann Arbor, we serve homes within the Ann Arbor area. Outside the list? Send us a note — we'll do our best."
             />
             <ul className="grid grid-cols-2 gap-2 md:gap-3 max-w-md">
               {SITE.serviceArea.map((area) => (

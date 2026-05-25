@@ -11,7 +11,7 @@ export const FAQS = [
   },
   {
     q: "What happens during the free meet & greet?",
-    a: "We come to your home (or you visit us) for about 30 minutes to meet your fur-baby, learn their routine, and answer every \"what if.\" There's zero commitment after — book if it feels right.",
+    a: 'We come to your home (or you visit us) for about 30 minutes to meet your fur-baby, learn their routine, and answer every "what if." There\'s zero commitment after — book if it feels right.',
   },
   {
     q: "Which neighborhoods do you serve?",
@@ -19,7 +19,7 @@ export const FAQS = [
   },
   {
     q: "Can you give medications?",
-    a: "Yes. We administer oral pills, liquids, topicals, and most injections (including insulin) at no extra charge. Tell us during the meet & greet and bring written instructions.",
+    a: "Yes. We administer oral pills, liquid medications, and topical medications at no extra charge. Tell us during the meet & greet and bring written instructions.",
   },
   {
     q: "What's your emergency vet protocol?",
@@ -27,11 +27,15 @@ export const FAQS = [
   },
   {
     q: "Do you require vaccinations for boarding?",
-    a: "Yes — dogs need current DHPP, Bordetella, and Rabies; cats need current FVRCP and Rabies. We'll request records before your fur-baby's first overnight.",
+    a: "Yes — boarding is for dogs only, and dogs must be current on core vaccines and rabies. We do not offer overnight cat boarding; cats are cared for through drop-in visits.",
+  },
+  {
+    q: "Is my dog a fit for boarding in your home?",
+    a: "Boarding dogs should be comfortable in a home environment and do well around both cats and other dogs, since we have one of each at home. If you're unsure, we can discuss your dog's temperament during the meet & greet.",
   },
   {
     q: "What's your cancellation policy?",
-    a: "Free up to 48 hours before the booking. Within 48 hours we charge 50% to cover blocked dates; same-day no-shows are charged in full. Last-minute additions are always welcome at no extra cost.",
+    a: "Cancellations are free — no cancellation fees, no penalties.",
   },
   {
     q: "What's included in a stay?",
@@ -47,7 +51,8 @@ export function FaqSection() {
           eyebrow="Frequently asked"
           title={
             <>
-              Good questions, <span className="text-pink-deepest">honest answers</span>
+              Good questions,{" "}
+              <span className="text-pink-deepest">honest answers</span>
             </>
           }
         />

@@ -68,8 +68,8 @@ export function AboutSection() {
               </blockquote>
               <figcaption className="mt-4 font-rounded text-sm text-ink/70">
                 <span className="font-semibold text-ink">Wutt Hmone Kyi</span> ·
-                founder of baba · mom of <span aria-hidden="true">🐈‍⬛</span>{" "}
-                Lucky &amp; <span aria-hidden="true">🐕</span> Milo
+                owner of baba · mom of <span aria-hidden="true">🐈‍⬛</span> Lucky
+                &amp; <span aria-hidden="true">🐕</span> Milo
               </figcaption>
             </figure>
           </div>

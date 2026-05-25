@@ -7,14 +7,7 @@ export const SITE = {
 
   city: "Ann Arbor",
   state: "MI",
-  serviceArea: [
-    "Ann Arbor",
-    "Ypsilanti",
-    "Saline",
-    "Dexter",
-    "Pittsfield Township",
-    "Scio Township",
-  ],
+  serviceArea: ["Ann Arbor"],
 
   phoneDisplay: "(415) 335-2462",
   phoneE164: "+14153352462",

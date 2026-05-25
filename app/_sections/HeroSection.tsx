@@ -46,13 +46,9 @@ export function HeroSection() {
                 Book a Free Meet &amp; Greet
               </Button>
               <Button href={TEL_HREF} variant="secondary" size="lg">
-                <PhoneIcon size={18} /> Call or text
+                <PhoneIcon size={18} /> Text Only
               </Button>
             </div>
-            <p className="font-body text-xs text-ink/55 max-w-md mx-auto lg:mx-0">
-              Free meet-and-greet · No charge for last-minute cancellations · We
-              come to you (or you can drop off 24/7).
-            </p>
           </div>
 
           <div className="order-1 lg:order-2 relative">
