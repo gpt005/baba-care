@@ -12,7 +12,7 @@ export const SITE = {
   phoneDisplay: "(415) 335-2462",
   phoneE164: "+14153352462",
 
-  email: "wutthmonethinkyi@babapetcare.com",
+  email: "wutt@babapetcare.com",
   instagramHandle: "@baba.mypetcare",
   instagramUrl: "https://www.instagram.com/baba.mypetcare/",
   roverUrl:
