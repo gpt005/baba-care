@@ -1,14 +1,8 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 import { Logo } from "../_components/Logo";
-import {
-  InstagramIcon,
-  PhoneIcon,
-  MailIcon,
-  MessageIcon,
-  PawIcon,
-} from "../_components/Icons";
-import { SITE, TEL_HREF, MAILTO_HREF, SMS_HREF } from "../_lib/site";
+import { InstagramIcon, PawIcon } from "../_components/Icons";
+import { SITE, MAILTO_HREF, SMS_HREF } from "../_lib/site";
 
 export const metadata: Metadata = {
   title: "links",
@@ -24,16 +18,31 @@ type LinkRow = {
 };
 
 const BOOK: LinkRow[] = [
-  { href: SITE.intakeFormUrl, label: "Book a free meet & greet", emoji: "🐾", highlight: true, external: true },
+  {
+    href: SITE.intakeFormUrl,
+    label: "Book a free meet & greet",
+    emoji: "🐾",
+    highlight: true,
+    external: true,
+  },
   { href: "/", label: "Visit our website", emoji: "🏠" },
-  { href: SITE.roverUrl, label: "Find us on Rover", emoji: "🐶", external: true },
+  {
+    href: SITE.roverUrl,
+    label: "Find us on Rover",
+    emoji: "🐶",
+    external: true,
+  },
 ];
 
 const CONTACT: LinkRow[] = [
-  { href: TEL_HREF, label: `Call ${SITE.phoneDisplay}`, emoji: "📞" },
-  { href: SMS_HREF, label: "Text us", emoji: "💬" },
+  { href: SMS_HREF, label: `Text ${SITE.phoneDisplay}`, emoji: "💬" },
   { href: MAILTO_HREF, label: SITE.email, emoji: "✉️" },
-  { href: SITE.instagramUrl, label: SITE.instagramHandle, emoji: "📸", external: true },
+  {
+    href: SITE.instagramUrl,
+    label: SITE.instagramHandle,
+    emoji: "📸",
+    external: true,
+  },
 ];
 
 const SHOP = SITE.affiliates.map((a) => ({
@@ -51,7 +60,10 @@ function LinkButton({ row }: { row: LinkRow }) {
     : "bg-cream text-ink border border-ink/10";
   const content = (
     <>
-      <span aria-hidden="true" className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pink-soft/60 text-base">
+      <span
+        aria-hidden="true"
+        className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-pink-soft/60 text-base"
+      >
         {row.emoji}
       </span>
       <span className="flex-1 text-center pr-9">{row.label}</span>
@@ -59,7 +71,12 @@ function LinkButton({ row }: { row: LinkRow }) {
   );
   if (row.external) {
     return (
-      <a className={`${base} ${styles}`} href={row.href} target="_blank" rel="noopener noreferrer">
+      <a
+        className={`${base} ${styles}`}
+        href={row.href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         {content}
       </a>
     );
@@ -94,7 +111,9 @@ export default function LinksPage() {
       <div className="mx-auto w-full max-w-[480px] space-y-7">
         <header className="flex flex-col items-center text-center space-y-3">
           <Logo size="sm" />
-          <p className="font-rounded text-sm font-semibold text-ink">{SITE.instagramHandle}</p>
+          <p className="font-rounded text-sm font-semibold text-ink">
+            {SITE.instagramHandle}
+          </p>
           <p className="font-body text-sm text-ink/75 inline-flex items-center justify-center gap-2 flex-wrap max-w-xs">
             <PawIcon size={14} className="text-pink-deepest" />
             insured · home-style · {SITE.city}, {SITE.state}
@@ -129,9 +148,24 @@ export default function LinksPage() {
       </div>
 
       {/* Decorative floaters */}
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <span className="absolute top-12 left-6 text-3xl motion-safe:animate-float" style={{ "--tilt": "-12deg" } as React.CSSProperties}>🐾</span>
-        <span className="absolute bottom-24 right-8 text-3xl motion-safe:animate-float" style={{ "--tilt": "14deg", animationDelay: "1.3s" } as React.CSSProperties}>🦴</span>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      >
+        <span
+          className="absolute top-12 left-6 text-3xl motion-safe:animate-float"
+          style={{ "--tilt": "-12deg" } as React.CSSProperties}
+        >
+          🐾
+        </span>
+        <span
+          className="absolute bottom-24 right-8 text-3xl motion-safe:animate-float"
+          style={
+            { "--tilt": "14deg", animationDelay: "1.3s" } as React.CSSProperties
+          }
+        >
+          🦴
+        </span>
       </div>
     </main>
   );

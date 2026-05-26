@@ -1,5 +1,5 @@
-import { PhoneIcon, InstagramIcon, MessageIcon } from "./Icons";
-import { SITE, TEL_HREF, SMS_HREF } from "../_lib/site";
+import { InstagramIcon, MessageIcon } from "./Icons";
+import { SITE, SMS_HREF } from "../_lib/site";
 
 export function StickyMobileBar() {
   return (

@@ -23,7 +23,7 @@ export const FAQS = [
   },
   {
     q: "What's your emergency vet protocol?",
-    a: "We keep your vet's contact info on file and have a 24/7 emergency vet on speed dial. We'll always call you first if it isn't a life-threatening emergency, and we cover transport ourselves.",
+    a: "We keep your vet's contact info on file and have a 24/7 emergency vet on speed dial. We'll always text you first if it isn't a life-threatening emergency, and we cover transport ourselves.",
   },
   {
     q: "Do you require vaccinations for boarding?",

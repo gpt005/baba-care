@@ -29,7 +29,6 @@ export default function Home() {
     name: SITE.name,
     image: "https://babapetcare.com/og.png",
     url: "https://babapetcare.com",
-    telephone: SITE.phoneE164,
     email: SITE.email,
     description: SITE.description,
     address: {

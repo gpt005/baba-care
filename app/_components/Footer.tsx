@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { Container } from "./Container";
 import { Logo } from "./Logo";
-import { InstagramIcon, MailIcon, PhoneIcon, MapPinIcon } from "./Icons";
-import { SITE, TEL_HREF, MAILTO_HREF } from "../_lib/site";
+import { InstagramIcon, MailIcon, MessageIcon, MapPinIcon } from "./Icons";
+import { SITE, SMS_HREF, MAILTO_HREF } from "../_lib/site";
 
 const VISIT = [
   { href: "#services", label: "Services" },
@@ -53,8 +53,8 @@ export function Footer() {
             </h3>
             <ul className="space-y-2">
               <li>
-                <a className="inline-flex items-center gap-2 font-body text-sm text-ink/80 hover:text-pink-deepest transition-colors" href={TEL_HREF}>
-                  <PhoneIcon size={16} /> {SITE.phoneDisplay}
+                <a className="inline-flex items-center gap-2 font-body text-sm text-ink/80 hover:text-pink-deepest transition-colors" href={SMS_HREF}>
+                  <MessageIcon size={16} /> {SITE.phoneDisplay}
                 </a>
               </li>
               <li>

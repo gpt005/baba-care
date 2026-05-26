@@ -2,9 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "./Button";
-import { InstagramIcon, MenuIcon, CloseIcon, PhoneIcon, MailIcon, MessageIcon } from "./Icons";
+import { InstagramIcon, MenuIcon, CloseIcon, MailIcon, MessageIcon } from "./Icons";
 import { Logo } from "./Logo";
-import { SITE, TEL_HREF, MAILTO_HREF, SMS_HREF } from "../_lib/site";
+import { SITE, MAILTO_HREF, SMS_HREF } from "../_lib/site";
 import { cn } from "../_lib/cn";
 
 const NAV_LINKS = [
@@ -74,10 +74,10 @@ export function TopBar() {
 
           <div className="hidden md:flex items-center gap-2 lg:gap-3">
             <a
-              href={TEL_HREF}
+              href={SMS_HREF}
               className="hidden lg:inline-flex items-center gap-2 font-rounded text-sm font-semibold text-ink/80 hover:text-pink-deepest transition-colors"
             >
-              <PhoneIcon size={16} />
+              <MessageIcon size={16} />
               {SITE.phoneDisplay}
             </a>
             <Button href={SITE.intakeFormUrl} size="md">
@@ -155,11 +155,8 @@ export function TopBar() {
             <Button href={SITE.intakeFormUrl} size="lg" className="w-full">
               Book a Free Meet &amp; Greet
             </Button>
-            <Button href={TEL_HREF} variant="secondary" size="lg" className="w-full">
-              <PhoneIcon size={18} /> Call {SITE.phoneDisplay}
-            </Button>
             <Button href={SMS_HREF} variant="secondary" size="lg" className="w-full">
-              <MessageIcon size={18} /> Text us
+              <MessageIcon size={18} /> Text {SITE.phoneDisplay}
             </Button>
             <Button href={MAILTO_HREF} variant="secondary" size="lg" className="w-full">
               <MailIcon size={18} /> Email

@@ -4,12 +4,11 @@ import { Section } from "../_components/Section";
 import { Button } from "../_components/Button";
 import {
   InstagramIcon,
-  PhoneIcon,
   MailIcon,
   MessageIcon,
   PawIcon,
 } from "../_components/Icons";
-import { SITE, TEL_HREF, SMS_HREF, MAILTO_HREF } from "../_lib/site";
+import { SITE, SMS_HREF, MAILTO_HREF } from "../_lib/site";
 
 export function ContactSection() {
   return (
@@ -34,20 +33,12 @@ export function ContactSection() {
               <Button href={SITE.intakeFormUrl} size="lg">
                 Book a Free Meet &amp; Greet
               </Button>
-              <Button href={TEL_HREF} variant="secondary" size="lg">
-                <PhoneIcon size={18} /> {SITE.phoneDisplay}
+              <Button href={SMS_HREF} variant="secondary" size="lg">
+                <MessageIcon size={18} /> Text {SITE.phoneDisplay}
               </Button>
             </div>
 
             <ul className="mt-8 grid gap-3 sm:grid-cols-2 max-w-lg mx-auto lg:mx-0">
-              <li>
-                <a
-                  href={SMS_HREF}
-                  className="flex items-center gap-3 rounded-2xl bg-cream border border-ink/10 px-4 py-3 font-rounded text-sm font-semibold text-ink hover:-translate-y-0.5 hover:shadow-[0_8px_18px_-10px_rgba(43,42,40,0.25)] transition-all"
-                >
-                  <MessageIcon size={18} /> Text us
-                </a>
-              </li>
               <li>
                 <a
                   href={MAILTO_HREF}

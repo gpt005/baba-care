@@ -12,7 +12,7 @@ export const SITE = {
   phoneDisplay: "(415) 335-2462",
   phoneE164: "+14153352462",
 
-  email: "baba.care@zohomail.com",
+  email: "wutthmonethinkyi@babapetcare.com",
   instagramHandle: "@baba.mypetcare",
   instagramUrl: "https://www.instagram.com/baba.mypetcare/",
   roverUrl:
@@ -36,6 +36,5 @@ export const SITE = {
   ],
 } as const;
 
-export const TEL_HREF = `tel:${SITE.phoneE164}`;
 export const SMS_HREF = `sms:${SITE.phoneE164}`;
 export const MAILTO_HREF = `mailto:${SITE.email}`;
