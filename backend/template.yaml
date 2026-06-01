@@ -26,19 +26,7 @@ Resources:
           INVOICE_API_KEY: !Ref ApiKey
           INVOICE_CORS_ORIGINS: !Ref AllowedOrigins
       FunctionUrlConfig:
-        AuthType: NONE
-        Cors:
-          AllowOrigins:
-            - "https://babapetcare.com"
-            - "https://www.babapetcare.com"
-            - "http://localhost:3000"
-          AllowMethods:
-            - "POST"
-            - "GET"
-            - "OPTIONS"
-          AllowHeaders:
-            - "content-type"
-            - "x-api-key"
+        AuthType: AWS_IAM
     Metadata:
       Dockerfile: Dockerfile
       DockerContext: .
