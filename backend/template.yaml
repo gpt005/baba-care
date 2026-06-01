@@ -9,7 +9,7 @@ Parameters:
     Description: Shared secret clients send in the X-API-Key header.
   AllowedOrigins:
     Type: String
-    Default: "https://babapetcare.com,http://localhost:3000"
+    Default: "https://babapetcare.com,https://www.babapetcare.com,http://localhost:3000"
     Description: Comma-separated list of origins for CORS.
 
 Resources:
@@ -42,6 +42,20 @@ Resources:
       Dockerfile: Dockerfile
       DockerContext: .
       DockerTag: latest
+
+  # SAM auto-generates a lambda:InvokeFunctionUrl permission for AuthType=NONE,
+  # but this AWS account additionally requires lambda:InvokeFunction or the
+  # Function URL returns 403 AccessDeniedException on every request. Without
+  # this resource the Lambda console surfaces:
+  #   "Your function URL auth type is NONE, but is missing permissions required
+  #    for public access. … grant lambda:invokeFunction and lambda:invokeFunctionUrl
+  #    permissions to all principals (*)."
+  InvoiceFnPublicInvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref InvoiceFn
+      Action: lambda:InvokeFunction
+      Principal: "*"
 
 Outputs:
   InvoiceUrl:
