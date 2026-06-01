@@ -1,0 +1,22 @@
+{
+  "client": "Kristen & Alex",
+  "contact_info": "810-357-3675\n319-594-3229",
+  "pet_name": "Leo",
+  "pet_sex": "M",
+  "breed": "Poodle",
+  "birthday": "2025-04-15",
+  "sterilization": true,
+  "service_date": "5/31/2026",
+  "service_time_range": "8:00am – 8:30am",
+  "services": [
+    {
+      "service": "30M drop-in (feed + 15M walk)",
+      "qty": 1,
+      "unit_price": 25.00
+    }
+  ],
+  "discount": 0.5,
+  "tip": 0,
+  "payment_method": "Venmo",
+  "payment_date": "5/31/2026"
+}

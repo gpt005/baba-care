@@ -1,0 +1,38 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: baba pet care - invoice PDF API (FastAPI on Lambda Function URL)
+
+Parameters:
+  ApiKey:
+    Type: String
+    NoEcho: true
+    Description: Shared secret clients send in the X-API-Key header.
+  AllowedOrigins:
+    Type: String
+    Default: "https://babapetcare.com,http://localhost:3000"
+    Description: Comma-separated list of origins for CORS.
+
+Resources:
+  InvoiceFn:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Architectures:
+        - arm64
+      MemorySize: 512
+      Timeout: 15
+      Environment:
+        Variables:
+          INVOICE_API_KEY: !Ref ApiKey
+          INVOICE_CORS_ORIGINS: !Ref AllowedOrigins
+      FunctionUrlConfig:
+        AuthType: AWS_IAM
+    Metadata:
+      Dockerfile: Dockerfile
+      DockerContext: .
+      DockerTag: latest
+
+Outputs:
+  InvoiceUrl:
+    Description: Public Function URL for the invoice API.
+    Value: !GetAtt InvoiceFnUrl.FunctionUrl

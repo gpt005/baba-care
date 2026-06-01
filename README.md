@@ -87,6 +87,26 @@ After the first deploy:
 - Retire the existing Linktree.
 - Update phone number, email, and `intakeFormUrl` in `app/_lib/site.ts`.
 
+## Invoice tool (`/invoice`)
+
+Private, password-gated page that posts to the [backend](./backend/) PDF API
+and previews/downloads the result.
+
+Configure the Lambda URL via env var (inlined into the bundle at build time):
+
+```bash
+# .env.local — local dev points at uvicorn on port 8000
+NEXT_PUBLIC_INVOICE_URL=http://localhost:8000
+```
+
+For production, set `NEXT_PUBLIC_INVOICE_URL` in the Amplify console
+(App settings → Environment variables) to the Function URL emitted by
+`sam deploy` (CloudFormation output `InvoiceUrl`). Rebuild and redeploy.
+
+The page is `noindex,nofollow` and unlinked from the public nav. The "password"
+the form prompts for is the same shared secret the Lambda checks via
+`X-API-Key` (`INVOICE_API_KEY` in the SAM template).
+
 ## Open items before launch
 
 See the implementation plan at
