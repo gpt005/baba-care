@@ -21,16 +21,20 @@ API_KEY = os.environ.get("INVOICE_API_KEY")
 
 app = FastAPI(title="baba pet care – invoice API", version="0.1.0")
 
-_cors_origins = os.environ.get(
-    "INVOICE_CORS_ORIGINS",
-    "https://babapetcare.com,https://www.babapetcare.com,http://localhost:3000",
-).split(",")
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[o.strip() for o in _cors_origins if o.strip()],
-    allow_methods=["POST", "GET", "OPTIONS"],
-    allow_headers=["content-type", "x-api-key"],
-)
+# Skip CORSMiddleware in Lambda — the Function URL handles CORS at the edge.
+# Stacking both produces duplicate Access-Control-Allow-Origin headers, which
+# browsers reject as a CORS error even though the HTTP status is 200.
+if not os.environ.get("AWS_LAMBDA_FUNCTION_NAME"):
+    _cors_origins = os.environ.get(
+        "INVOICE_CORS_ORIGINS",
+        "https://babapetcare.com,https://www.babapetcare.com,http://localhost:3000",
+    ).split(",")
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=[o.strip() for o in _cors_origins if o.strip()],
+        allow_methods=["POST", "GET", "OPTIONS"],
+        allow_headers=["content-type", "x-api-key"],
+    )
 
 
 def require_api_key(x_api_key: str | None = Header(default=None)) -> None:
