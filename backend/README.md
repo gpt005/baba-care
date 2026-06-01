@@ -127,7 +127,18 @@ The Makefile auto-loads `.env` so `DOCKER_HOST`, the `ApiKey` parameter, etc. ar
 
 ### Test the deployed function
 
-The Function URL is set to `AuthType: AWS_IAM`, so plain `curl` won't work — requests must be SigV4-signed with your AWS credentials. Use the bundled helper [scripts/invoke.py](scripts/invoke.py), which uses `boto3` + `requests` to sign requests **and writes binary response bodies (PDFs) correctly** (popular `awscurl` corrupts binary by decoding it as text):
+The Function URL is set to `AuthType: NONE` — plain `curl` works. The browser-side invoice tool needs this, since browsers can't sign SigV4 requests:
+
+```bash
+curl https://<hash>.lambda-url.us-east-1.on.aws/health
+curl -X POST https://<hash>.lambda-url.us-east-1.on.aws/invoice \
+  -H 'Content-Type: application/json' \
+  -H "X-API-Key: $INVOICE_API_KEY" \
+  --data @tests/fixtures/sample_payload.json \
+  --output /tmp/invoice.pdf
+```
+
+The bundled SigV4 helper [scripts/invoke.py](scripts/invoke.py) is still wired up via `make health-deployed` / `make sample-deployed`, and works (signatures are accepted but ignored when `AuthType=NONE`). It remains useful as a binary-safe wrapper — `awscurl` and similar tools mangle PDF bytes by decoding the response as text.
 
 ```bash
 make health-deployed     # → {"ok":true}
@@ -136,41 +147,35 @@ make sample-deployed     # → generates a PDF from sample_payload.json and open
 
 Both Make targets pull `INVOICE_URL` and `INVOICE_API_KEY` from `.env` automatically — no shell `export` required.
 
-Your IAM identity needs `lambda:InvokeFunctionUrl` on the function. If you see HTTP 403, attach this policy to your user/role:
-
-```json
-{
-  "Effect": "Allow",
-  "Action": "lambda:InvokeFunctionUrl",
-  "Resource": "arn:aws:lambda:us-east-1:<account-id>:function:baba-invoice-api-InvoiceFn-*"
-}
-```
-
 ### Auth
 
-Two layers:
+Single layer: the **`X-API-Key` header** is checked in-app by FastAPI middleware. The Function URL itself is unauthenticated (`AuthType: NONE`) so the browser-side tool can call it; the shared secret is the only gate.
 
-1. **AWS IAM SigV4** on the Function URL — only authorized AWS principals can invoke it.
-2. **`X-API-Key` header** checked in-app by FastAPI middleware — additional shared-secret gate.
-
-To rotate the shared key:
+This means **anyone who learns the URL + key can hit the API**. Rotate aggressively if you suspect the key is leaked:
 
 ```bash
 sam deploy --parameter-overrides ApiKey="<new-secret>"
 # Also update INVOICE_API_KEY in .env to match.
 ```
 
+If you ever need stronger auth (e.g. employee-only access), put the function behind API Gateway with a Cognito authorizer rather than re-enabling Function URL `AWS_IAM` auth — IAM auth blocks browsers entirely.
+
 ### CORS
 
-Function URL edge-level CORS is **not** configured (corporate SCPs in some AWS accounts block `FunctionUrlConfig.Cors`). CORS is handled at the application layer by FastAPI's `CORSMiddleware` ([app/main.py](app/main.py)), which reads the `INVOICE_CORS_ORIGINS` Lambda env var (set from the `AllowedOrigins` SAM parameter).
+Two layers, both with the same allowlist:
 
-To add a new caller origin:
+1. **Function URL edge CORS** (in [template.yaml](template.yaml) `FunctionUrlConfig.Cors`) — preflight handled by AWS infra before invoking the function. Hardcoded list; edit the template and redeploy to change.
+2. **FastAPI `CORSMiddleware`** ([app/main.py](app/main.py)) — defense-in-depth. Reads the `INVOICE_CORS_ORIGINS` Lambda env var, set from the `AllowedOrigins` SAM parameter.
+
+To add a new caller origin, update **both** — edit the `AllowOrigins` list in [template.yaml](template.yaml) and pass an updated `AllowedOrigins` parameter:
 
 ```bash
 sam deploy --parameter-overrides \
   ApiKey="<your-secret>" \
-  AllowedOrigins="https://babapetcare.com,http://localhost:3000,https://newdomain.com"
+  AllowedOrigins="https://babapetcare.com,https://www.babapetcare.com,http://localhost:3000,https://newdomain.com"
 ```
+
+Note: `AllowMethods` on the Function URL config rejects `OPTIONS` (each value is capped at 6 chars by the AWS API; preflights are handled automatically) — list only the real methods you serve (`POST`, `GET`).
 
 ### Tear-down
 
@@ -180,6 +185,6 @@ sam delete --stack-name baba-invoice-api
 
 ### Common deploy errors
 
-- **`Error: Failed to create changeset … [AWS::EarlyValidation::PropertyValidation]`** — corporate SCPs reject certain CloudFormation properties. The most common offender is `FunctionUrlConfig.Cors`, which this template intentionally omits. If you re-add it and hit this error, move CORS handling back to FastAPI middleware only.
+- **`Error: Failed to create changeset … [AWS::EarlyValidation::PropertyValidation]`** — corporate SCPs in some AWS accounts reject certain CloudFormation properties. The most common offender is `FunctionUrlConfig.Cors`. If you hit this, delete the `Cors` block from [template.yaml](template.yaml) and rely on FastAPI middleware only — but be aware that browsers will then get no edge-level preflight response, so the function will be invoked on every OPTIONS request and CORS errors will surface as Lambda timeouts rather than clean 403s.
 - **`Image not found for ImageUri parameter`** — run `sam build` before `sam deploy`; the container image must exist in `.aws-sam/` before deploy.
 - **`Parameters: [ApiKey] must have values`** — pass `--parameter-overrides ApiKey=...` or set `INVOICE_API_KEY` in `.env` so `make deploy` supplies it.

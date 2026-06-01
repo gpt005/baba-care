@@ -23,7 +23,7 @@ app = FastAPI(title="baba pet care – invoice API", version="0.1.0")
 
 _cors_origins = os.environ.get(
     "INVOICE_CORS_ORIGINS",
-    "https://babapetcare.com,http://localhost:3000",
+    "https://babapetcare.com,https://www.babapetcare.com,http://localhost:3000",
 ).split(",")
 app.add_middleware(
     CORSMiddleware,
