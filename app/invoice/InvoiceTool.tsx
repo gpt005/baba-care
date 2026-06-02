@@ -19,7 +19,7 @@ type FormState = {
   pet_name: string;
   pet_sex: "M" | "F";
   breed: string;
-  birthday: string;
+  age_category: "junior" | "adult" | "senior";
   sterilization: boolean;
   service_date: string;
   service_time_range: string;
@@ -38,7 +38,7 @@ const INITIAL: FormState = {
   pet_name: "",
   pet_sex: "M",
   breed: "",
-  birthday: "",
+  age_category: "adult",
   sterilization: true,
   service_date: "",
   service_time_range: "",
@@ -61,11 +61,18 @@ function money(n: number): string {
   return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
 }
 
-function computeTotals(rows: ServiceRow[], discountPct: string, tip: string) {
-  const subtotal = rows.reduce(
-    (s, r) => s + (Number(r.qty) || 0) * (Number(r.unit_price) || 0),
-    0,
-  );
+function computeTotals(
+  rows: ServiceRow[],
+  discountPct: string,
+  tip: string,
+  ageCategory: FormState["age_category"],
+) {
+  const filledRows = rows.filter((r) => r.service.trim() && (Number(r.qty) || 0) > 0).length;
+  const ageSurcharge =
+    ageCategory === "junior" || ageCategory === "senior" ? filledRows * 5 : 0;
+  const subtotal =
+    rows.reduce((s, r) => s + (Number(r.qty) || 0) * (Number(r.unit_price) || 0), 0) +
+    ageSurcharge;
   const pct = Math.max(0, Math.min(100, Number(discountPct) || 0)) / 100;
   const tipAmount = Math.max(0, Number(tip) || 0);
   return {
@@ -82,7 +89,7 @@ function buildPayload(form: FormState) {
     pet_name: form.pet_name.trim(),
     pet_sex: form.pet_sex,
     breed: form.breed.trim(),
-    birthday: form.birthday,
+    age_category: form.age_category,
     sterilization: form.sterilization,
     service_date: form.service_date.trim(),
     service_time_range: form.service_time_range.trim(),
@@ -146,8 +153,8 @@ export function InvoiceTool() {
   }, [pdfUrl]);
 
   const totals = useMemo(
-    () => computeTotals(form.services, form.discount_pct, form.tip),
-    [form.services, form.discount_pct, form.tip],
+    () => computeTotals(form.services, form.discount_pct, form.tip, form.age_category),
+    [form.services, form.discount_pct, form.tip, form.age_category],
   );
 
   async function handleGateSubmit(e: FormEvent) {
@@ -526,17 +533,31 @@ function InvoiceForm({
               />
             </div>
             <div>
-              <label htmlFor="birthday" className={labelStyle}>
-                Birthday *
-              </label>
-              <input
-                id="birthday"
-                type="date"
-                required
-                value={form.birthday}
-                onChange={(e) => update("birthday", e.target.value)}
-                className={fieldStyle}
-              />
+              <span className={labelStyle}>Age category *</span>
+              <div className="flex gap-2">
+                {(["junior", "adult", "senior"] as const).map((cat) => (
+                  <label
+                    key={cat}
+                    className={cn(
+                      "flex-1 cursor-pointer rounded-2xl border px-4 py-2.5 text-center font-rounded font-semibold transition-colors capitalize",
+                      form.age_category === cat
+                        ? "border-pink-deepest bg-pink-deepest text-cream"
+                        : "border-ink/15 bg-white text-ink/70 hover:border-pink-deepest/50",
+                    )}
+                  >
+                    <input
+                      type="radio"
+                      name="age_category"
+                      value={cat}
+                      checked={form.age_category === cat}
+                      onChange={() => update("age_category", cat)}
+                      className="sr-only"
+                    />
+                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                  </label>
+                ))}
+              </div>
+              <p className="text-xs text-ink/50 mt-1">Cats are always Adult.</p>
             </div>
             <div>
               <span className={labelStyle}>Sex *</span>

@@ -4,7 +4,7 @@
   "pet_name": "Leo",
   "pet_sex": "M",
   "breed": "Poodle",
-  "birthday": "2025-04-15",
+  "age_category": "junior",
   "sterilization": true,
   "service_date": "5/31/2026",
   "service_time_range": "8:00am – 8:30am",

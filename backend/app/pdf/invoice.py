@@ -24,7 +24,7 @@ from .primitives import (
     draw_sparkle,
     draw_total_badge,
     draw_value_only_underline,
-    format_age,
+
 )
 from .theme import (
     BLUSH,
@@ -201,7 +201,7 @@ def _draw_meta_grid(c: Canvas, data: InvoiceRequest) -> float:
     # Row 2: Fur-baby (left)  |  Breed (age) (right)
     y = block_bottom
     pet_label = f"{data.pet_name} ({data.pet_sex.value})"
-    breed_label = f"{data.breed} ({format_age(data.birthday)})"
+    breed_label = f"{data.breed} ({data.age_category.value})"
     draw_label_underline(
         c, left_x, y, "Fur-baby:", pet_label, line_width=line_w_left, underline_shift=-6
     )

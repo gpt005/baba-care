@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from datetime import date
 from decimal import Decimal
 from enum import Enum
 
@@ -17,6 +16,12 @@ def _q(value: Decimal) -> Decimal:
 class PetSex(str, Enum):
     M = "M"
     F = "F"
+
+
+class PetAgeCategory(str, Enum):
+    junior = "junior"
+    adult = "adult"
+    senior = "senior"
 
 
 class ServiceLine(BaseModel):
@@ -42,7 +47,7 @@ class InvoiceRequest(BaseModel):
     pet_name: str = Field(min_length=1)
     pet_sex: PetSex
     breed: str = Field(min_length=1)
-    birthday: date
+    age_category: PetAgeCategory
     sterilization: bool
     service_date: str
     service_time_range: str = ""
@@ -54,6 +59,15 @@ class InvoiceRequest(BaseModel):
     total: Decimal | None = None
     payment_method: str = ""
     payment_date: str = ""
+
+    @model_validator(mode="after")
+    def _add_age_surcharge(self) -> InvoiceRequest:
+        if self.age_category in (PetAgeCategory.junior, PetAgeCategory.senior):
+            n = len(self.services)
+            label = f"{self.age_category.value.capitalize()} rate"
+            surcharge = ServiceLine(service=label, qty=Decimal(n), unit_price=Decimal("5"))
+            self.services = list(self.services) + [surcharge]
+        return self
 
     @model_validator(mode="after")
     def _fill_totals(self) -> InvoiceRequest:
