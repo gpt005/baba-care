@@ -1,15 +1,28 @@
 "use client";
 
-import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from "react";
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type FormEvent,
+  type ReactNode,
+} from "react";
 import Link from "next/link";
 import { Logo } from "../_components/Logo";
 import { Button } from "../_components/Button";
 import { cn } from "../_lib/cn";
 
-const INVOICE_URL = process.env.NEXT_PUBLIC_INVOICE_URL ?? "http://localhost:8000";
+const INVOICE_URL =
+  process.env.NEXT_PUBLIC_INVOICE_URL ?? "http://localhost:8000";
 const STORAGE_KEY = "baba.invoice.password";
 
-type Status = "booting" | "locked" | "checking" | "unlocked" | "submitting" | "success";
+type Status =
+  | "booting"
+  | "locked"
+  | "checking"
+  | "unlocked"
+  | "submitting"
+  | "success";
 
 type ServiceRow = { service: string; qty: string; unit_price: string };
 
@@ -55,7 +68,8 @@ const fieldStyle =
   "focus:outline-none focus:border-pink-deepest focus:ring-2 focus:ring-pink-deepest/20 " +
   "placeholder:text-ink/35";
 
-const labelStyle = "block font-rounded text-sm font-semibold text-ink/80 mb-1.5";
+const labelStyle =
+  "block font-rounded text-sm font-semibold text-ink/80 mb-1.5";
 
 function money(n: number): string {
   return n.toLocaleString("en-US", { style: "currency", currency: "USD" });
@@ -67,12 +81,16 @@ function computeTotals(
   tip: string,
   ageCategory: FormState["age_category"],
 ) {
-  const filledRows = rows.filter((r) => r.service.trim() && (Number(r.qty) || 0) > 0).length;
+  const filledRows = rows.filter(
+    (r) => r.service.trim() && (Number(r.qty) || 0) > 0,
+  ).length;
   const ageSurcharge =
     ageCategory === "junior" || ageCategory === "senior" ? filledRows * 5 : 0;
   const subtotal =
-    rows.reduce((s, r) => s + (Number(r.qty) || 0) * (Number(r.unit_price) || 0), 0) +
-    ageSurcharge;
+    rows.reduce(
+      (s, r) => s + (Number(r.qty) || 0) * (Number(r.unit_price) || 0),
+      0,
+    ) + ageSurcharge;
   const pct = Math.max(0, Math.min(100, Number(discountPct) || 0)) / 100;
   const tipAmount = Math.max(0, Number(tip) || 0);
   return {
@@ -105,9 +123,9 @@ function buildPayload(form: FormState) {
   };
 }
 
-function safeFilename(client: string): string {
+function safeFilename(client: string, ext = "pdf"): string {
   const safe = client.replace(/[^A-Za-z0-9_-]+/g, "_") || "client";
-  return `invoice-${safe}.pdf`;
+  return `invoice-${safe}.${ext}`;
 }
 
 export function InvoiceTool() {
@@ -119,6 +137,7 @@ export function InvoiceTool() {
   const [form, setForm] = useState<FormState>(INITIAL);
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [pdfBlob, setPdfBlob] = useState<Blob | null>(null);
   const [pdfFilename, setPdfFilename] = useState<string>("invoice.pdf");
 
   // On mount: try a stored password silently. If it validates, unlock.
@@ -126,7 +145,9 @@ export function InvoiceTool() {
   // read happens client-side only.
   useEffect(() => {
     const stored =
-      typeof window !== "undefined" ? window.localStorage.getItem(STORAGE_KEY) : null;
+      typeof window !== "undefined"
+        ? window.localStorage.getItem(STORAGE_KEY)
+        : null;
     if (!stored) {
       Promise.resolve().then(() => setStatus("locked"));
       return;
@@ -153,7 +174,13 @@ export function InvoiceTool() {
   }, [pdfUrl]);
 
   const totals = useMemo(
-    () => computeTotals(form.services, form.discount_pct, form.tip, form.age_category),
+    () =>
+      computeTotals(
+        form.services,
+        form.discount_pct,
+        form.tip,
+        form.age_category,
+      ),
     [form.services, form.discount_pct, form.tip, form.age_category],
   );
 
@@ -189,12 +216,14 @@ export function InvoiceTool() {
   }
 
   function handleSignOut() {
-    if (typeof window !== "undefined") window.localStorage.removeItem(STORAGE_KEY);
+    if (typeof window !== "undefined")
+      window.localStorage.removeItem(STORAGE_KEY);
     setPassword("");
     setRemember(false);
     setForm(INITIAL);
     if (pdfUrl) URL.revokeObjectURL(pdfUrl);
     setPdfUrl(null);
+    setPdfBlob(null);
     setStatus("locked");
   }
 
@@ -239,10 +268,13 @@ export function InvoiceTool() {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
       const url = URL.createObjectURL(blob);
       setPdfUrl(url);
+      setPdfBlob(blob);
       setPdfFilename(safeFilename(form.client));
       setStatus("success");
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : "Something went wrong.");
+      setSubmitError(
+        err instanceof Error ? err.message : "Something went wrong.",
+      );
       setStatus("unlocked");
     }
   }
@@ -250,8 +282,51 @@ export function InvoiceTool() {
   function handleMakeAnother() {
     if (pdfUrl) URL.revokeObjectURL(pdfUrl);
     setPdfUrl(null);
+    setPdfBlob(null);
     setSubmitError(null);
     setStatus("unlocked");
+  }
+
+  // Render the generated PDF (already in the browser) to a raster image and
+  // trigger a download. Runs entirely client-side via pdf.js — no extra API call.
+  async function downloadAsImage(fmt: "png" | "jpg") {
+    if (!pdfBlob) return;
+    const DPI = 300; // PDF user space is 72 DPI → scale up to print quality
+    try {
+      const pdfjs = await import("pdfjs-dist");
+      pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.js";
+
+      const data = await pdfBlob.arrayBuffer();
+      const doc = await pdfjs.getDocument({ data }).promise;
+      const page = await doc.getPage(1);
+      const viewport = page.getViewport({ scale: DPI / 72 });
+
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.ceil(viewport.width);
+      canvas.height = Math.ceil(viewport.height);
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("Could not get canvas context.");
+      // Flatten onto white so JPEG (no alpha channel) never shows black fringes.
+      ctx.fillStyle = "#ffffff";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      await page.render({ canvas, canvasContext: ctx, viewport }).promise;
+
+      const mime = fmt === "png" ? "image/png" : "image/jpeg";
+      const out: Blob | null = await new Promise((resolve) =>
+        canvas.toBlob(resolve, mime, fmt === "jpg" ? 0.9 : undefined),
+      );
+      if (!out) throw new Error("Could not encode image.");
+      const url = URL.createObjectURL(out);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = safeFilename(form.client, fmt);
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      setSubmitError(
+        err instanceof Error ? err.message : "Could not create image.",
+      );
+    }
   }
 
   return (
@@ -259,7 +334,9 @@ export function InvoiceTool() {
       <div className="mx-auto w-full max-w-3xl space-y-6">
         <header className="flex items-center justify-between">
           <Logo size="sm" />
-          {(status === "unlocked" || status === "submitting" || status === "success") && (
+          {(status === "unlocked" ||
+            status === "submitting" ||
+            status === "success") && (
             <button
               type="button"
               onClick={handleSignOut}
@@ -299,6 +376,7 @@ export function InvoiceTool() {
           <PdfPreview
             url={pdfUrl}
             filename={pdfFilename}
+            onDownloadImage={downloadAsImage}
             onMakeAnother={handleMakeAnother}
           />
         )}
@@ -316,7 +394,13 @@ export function InvoiceTool() {
   );
 }
 
-function Card({ children, className }: { children: ReactNode; className?: string }) {
+function Card({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
     <section
       className={cn(
@@ -444,7 +528,9 @@ function InvoiceForm({
   const updateRow = (idx: number, patch: Partial<ServiceRow>) =>
     onChange({
       ...form,
-      services: form.services.map((r, i) => (i === idx ? { ...r, ...patch } : r)),
+      services: form.services.map((r, i) =>
+        i === idx ? { ...r, ...patch } : r,
+      ),
     });
 
   const addRow = () => {
@@ -638,7 +724,8 @@ function InvoiceForm({
           </legend>
           <div className="space-y-3">
             {form.services.map((row, idx) => {
-              const amount = (Number(row.qty) || 0) * (Number(row.unit_price) || 0);
+              const amount =
+                (Number(row.qty) || 0) * (Number(row.unit_price) || 0);
               return (
                 <div
                   key={idx}
@@ -650,7 +737,9 @@ function InvoiceForm({
                       type="text"
                       required
                       value={row.service}
-                      onChange={(e) => updateRow(idx, { service: e.target.value })}
+                      onChange={(e) =>
+                        updateRow(idx, { service: e.target.value })
+                      }
                       className={fieldStyle}
                       placeholder="30M drop-in (feed + 15M walk)"
                     />
@@ -675,7 +764,9 @@ function InvoiceForm({
                       step="0.01"
                       required
                       value={row.unit_price}
-                      onChange={(e) => updateRow(idx, { unit_price: e.target.value })}
+                      onChange={(e) =>
+                        updateRow(idx, { unit_price: e.target.value })
+                      }
                       className={fieldStyle}
                       placeholder="25.00"
                     />
@@ -822,28 +913,69 @@ function InvoiceForm({
 function PdfPreview({
   url,
   filename,
+  onDownloadImage,
   onMakeAnother,
 }: {
   url: string;
   filename: string;
+  onDownloadImage: (fmt: "png" | "jpg") => Promise<void>;
   onMakeAnother: () => void;
 }) {
+  const [fmt, setFmt] = useState<"pdf" | "png" | "jpg">("png");
+  const [downloading, setDownloading] = useState(false);
+
+  async function handleDownload() {
+    if (downloading) return;
+    if (fmt === "pdf") {
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      a.click();
+      return;
+    }
+    setDownloading(true);
+    try {
+      await onDownloadImage(fmt);
+    } finally {
+      setDownloading(false);
+    }
+  }
+
   return (
     <Card>
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
         <h1 className="font-display text-3xl text-pink-deepest">preview</h1>
-        <div className="flex gap-2">
-          <a
-            href={url}
-            download={filename}
+        <div className="flex items-center gap-2">
+          <label className="sr-only" htmlFor="download-format">
+            Download format
+          </label>
+          <select
+            id="download-format"
+            value={fmt}
+            onChange={(e) => setFmt(e.target.value as "pdf" | "png" | "jpg")}
+            disabled={downloading}
+            className={cn(
+              fieldStyle,
+              "w-auto py-2.5 pr-9 text-sm md:text-base",
+            )}
+          >
+            <option value="png">PNG</option>
+            <option value="pdf">PDF</option>
+            <option value="jpg">JPG</option>
+          </select>
+          <button
+            type="button"
+            onClick={handleDownload}
+            disabled={downloading}
             className={cn(
               "inline-flex items-center justify-center gap-2 rounded-full font-rounded font-semibold transition-all duration-200 ease-out",
               "bg-pink-deepest text-cream shadow-[0_6px_16px_-6px_rgba(217,126,145,0.65)] hover:-translate-y-0.5",
               "px-5 py-2.5 text-sm md:text-base min-h-11",
+              "disabled:opacity-60 disabled:hover:translate-y-0 disabled:cursor-not-allowed",
             )}
           >
-            ↓ Download
-          </a>
+            {downloading ? "Rendering…" : "Download"}
+          </button>
           <Button onClick={onMakeAnother} variant="secondary" size="md">
             New invoice
           </Button>
