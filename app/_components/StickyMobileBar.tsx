@@ -1,5 +1,5 @@
-import { InstagramIcon, MessageIcon } from "./Icons";
-import { SITE, SMS_HREF } from "../_lib/site";
+import { InstagramIcon, PawIcon } from "./Icons";
+import { SITE } from "../_lib/site";
 
 export function StickyMobileBar() {
   return (
@@ -11,11 +11,13 @@ export function StickyMobileBar() {
     >
       <div className="grid grid-cols-2 gap-2 p-3">
         <a
-          href={SMS_HREF}
+          href={SITE.intakeFormUrl}
+          target="_blank"
+          rel="noopener noreferrer"
           className="flex flex-col items-center justify-center gap-1 rounded-2xl bg-cream border border-ink/15 px-3 py-3 text-ink font-rounded text-xs font-semibold active:scale-95 transition-transform"
         >
-          <MessageIcon size={20} />
-          Text
+          <PawIcon size={20} />
+          Booking form
         </a>
         <a
           href={SITE.instagramUrl}

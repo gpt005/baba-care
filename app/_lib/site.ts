@@ -9,9 +9,6 @@ export const SITE = {
   state: "MI",
   serviceArea: ["Ann Arbor"],
 
-  phoneDisplay: "(415) 335-2462",
-  phoneE164: "+14153352462",
-
   email: "wutt@babapetcare.com",
   instagramHandle: "@baba.mypetcare",
   instagramUrl: "https://www.instagram.com/baba.mypetcare/",
@@ -36,5 +33,4 @@ export const SITE = {
   ],
 } as const;
 
-export const SMS_HREF = `sms:${SITE.phoneE164}`;
 export const MAILTO_HREF = `mailto:${SITE.email}`;

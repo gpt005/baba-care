@@ -5,10 +5,9 @@ import { Button } from "../_components/Button";
 import {
   InstagramIcon,
   MailIcon,
-  MessageIcon,
   PawIcon,
 } from "../_components/Icons";
-import { SITE, SMS_HREF, MAILTO_HREF } from "../_lib/site";
+import { SITE, MAILTO_HREF } from "../_lib/site";
 
 export function ContactSection() {
   return (
@@ -33,8 +32,8 @@ export function ContactSection() {
               <Button href={SITE.intakeFormUrl} size="lg">
                 Book a Free Meet &amp; Greet
               </Button>
-              <Button href={SMS_HREF} variant="secondary" size="lg">
-                <MessageIcon size={18} /> Text {SITE.phoneDisplay}
+              <Button href={MAILTO_HREF} variant="secondary" size="lg">
+                <MailIcon size={18} /> Email Us
               </Button>
             </div>
 

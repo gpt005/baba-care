@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Logo } from "../_components/Logo";
 import { InstagramIcon, PawIcon } from "../_components/Icons";
-import { SITE, MAILTO_HREF, SMS_HREF } from "../_lib/site";
+import { SITE, MAILTO_HREF } from "../_lib/site";
 
 export const metadata: Metadata = {
   title: "links",
@@ -35,7 +35,7 @@ const BOOK: LinkRow[] = [
 ];
 
 const CONTACT: LinkRow[] = [
-  { href: SMS_HREF, label: `Text ${SITE.phoneDisplay}`, emoji: "💬" },
+  { href: SITE.intakeFormUrl, label: "Booking form", emoji: "🐾", external: true },
   { href: MAILTO_HREF, label: SITE.email, emoji: "✉️" },
   {
     href: SITE.instagramUrl,

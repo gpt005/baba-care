@@ -2,8 +2,8 @@ import Image from "next/image";
 import { Container } from "../_components/Container";
 import { Button } from "../_components/Button";
 import { SpeechBubble } from "../_components/SpeechBubble";
-import { MessageIcon, PawIcon } from "../_components/Icons";
-import { SITE, SMS_HREF } from "../_lib/site";
+import { MailIcon, PawIcon } from "../_components/Icons";
+import { SITE, MAILTO_HREF } from "../_lib/site";
 
 export function HeroSection() {
   return (
@@ -45,8 +45,8 @@ export function HeroSection() {
               <Button href={SITE.intakeFormUrl} size="lg">
                 Book a Free Meet &amp; Greet
               </Button>
-              <Button href={SMS_HREF} variant="secondary" size="lg">
-                <MessageIcon size={18} /> Text Only
+              <Button href={MAILTO_HREF} variant="secondary" size="lg">
+                <MailIcon size={18} /> Email Us
               </Button>
             </div>
           </div>
