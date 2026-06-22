@@ -14,16 +14,20 @@ type Status = "booting" | "locked" | "checking" | "unlocked" | "submitting" | "s
 type Mode = "single" | "multi";
 type FoodLevel = "well" | "some" | "skipped";
 type WaterLevel = "well" | "little" | "not much";
-type MoodValue = "happy" | "playful" | "calm" | "tired" | "anxious";
+type MoodValue = "happy" | "excited" | "playful" | "silly" | "calm" | "cuddly" | "curious" | "tired" | "clingy";
 
 const ACTIVITIES = ["Walk", "Play", "Feeding", "Brushing", "Bath", "Snuggles", "Outdoor"] as const;
 
 const MOODS: { value: MoodValue; emoji: string; label: string }[] = [
   { value: "happy", emoji: "😄", label: "Happy" },
+  { value: "excited", emoji: "🤩", label: "Excited" },
   { value: "playful", emoji: "🎉", label: "Playful" },
+  { value: "silly", emoji: "🤪", label: "Silly" },
   { value: "calm", emoji: "😌", label: "Calm" },
+  { value: "cuddly", emoji: "🥰", label: "Cuddly" },
+  { value: "curious", emoji: "🐾", label: "Curious" },
   { value: "tired", emoji: "😴", label: "Tired" },
-  { value: "anxious", emoji: "😰", label: "Anxious" },
+  { value: "clingy", emoji: "🥺", label: "Clingy" },
 ];
 
 const FOOD_OPTIONS: { value: FoodLevel; label: string }[] = [
