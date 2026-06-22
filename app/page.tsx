@@ -27,7 +27,7 @@ export default function Home() {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: SITE.name,
-    image: "https://babapetcare.com/og.png",
+    image: "https://babapetcare.com/lucky-the-cat.png",
     url: "https://babapetcare.com",
     email: SITE.email,
     description: SITE.description,
@@ -54,6 +54,15 @@ export default function Home() {
       name: f.q,
       acceptedAnswer: { "@type": "Answer", text: f.a },
     })),
+  };
+
+  const aggregateRatingSchema = {
+    "@context": "https://schema.org",
+    "@type": "AggregateRating",
+    itemReviewed: { "@type": "LocalBusiness", name: SITE.name },
+    ratingValue: "5",
+    bestRating: "5",
+    reviewCount: "8",
   };
 
   return (
@@ -83,6 +92,10 @@ export default function Home() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(aggregateRatingSchema) }}
       />
     </>
   );

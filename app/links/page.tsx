@@ -7,6 +7,7 @@ import { SITE, MAILTO_HREF } from "../_lib/site";
 export const metadata: Metadata = {
   title: "links",
   description: `All the links from @${SITE.instagramHandle.replace("@", "")} in one place — book with us, follow us, and shop our partners.`,
+  alternates: { canonical: "https://babapetcare.com/links" },
 };
 
 type LinkRow = {
@@ -110,6 +111,7 @@ export default function LinksPage() {
     <main className="min-h-screen bg-pink-soft/40 px-5 pt-10 pb-16 flex flex-col">
       <div className="mx-auto w-full max-w-[480px] space-y-7">
         <header className="flex flex-col items-center text-center space-y-3">
+          <h1 className="sr-only">baba pet care — links</h1>
           <Logo size="sm" />
           <p className="font-rounded text-sm font-semibold text-ink">
             {SITE.instagramHandle}
