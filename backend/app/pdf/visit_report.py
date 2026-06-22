@@ -42,10 +42,14 @@ ACTIVITIES = ["Walk", "Play", "Feeding", "Brushing", "Bath", "Snuggles", "Outdoo
 
 MOOD_LABELS: dict[str, str] = {
     "happy": "Happy",
+    "excited": "Excited",
     "playful": "Playful",
+    "silly": "Silly",
     "calm": "Calm",
+    "cuddly": "Cuddly",
+    "curious": "Curious",
     "tired": "Tired",
-    "anxious": "Anxious",
+    "clingy": "Clingy",
 }
 
 FOOD_LABELS: dict[str, str] = {

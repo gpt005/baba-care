@@ -5,5 +5,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app/ ${LAMBDA_TASK_ROOT}/app/
 COPY assets/ ${LAMBDA_TASK_ROOT}/assets/
+RUN chmod -R a+r ${LAMBDA_TASK_ROOT}/app/ ${LAMBDA_TASK_ROOT}/assets/
 
 CMD ["app.main.handler"]
