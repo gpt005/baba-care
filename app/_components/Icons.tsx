@@ -177,3 +177,11 @@ export function SunIcon({ size, ...rest }: IconProps) {
     </svg>
   );
 }
+
+export function MoonIcon({ size, ...rest }: IconProps) {
+  return (
+    <svg {...base(size)} {...rest}>
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  );
+}

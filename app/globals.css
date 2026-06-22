@@ -23,6 +23,21 @@
   }
 }
 
+.dark {
+  --color-cream: #1d1a14;
+  --color-ink: #ede8df;
+  /* Pinks: same hue (348°), boosted saturation to compensate for dark bg contrast */
+  --color-pink-soft: #3b161e;
+  --color-pink-deep: #c95e74;
+  --color-pink-deepest: #de7c90;
+  /* Sage: hue-locked, saturation boosted */
+  --color-sage: #1e3318;
+  --color-sage-deep: #5c7a50;
+  /* Yellow: slight hue shift toward red to fight Bezold-Brücke orange drift */
+  --color-yellow: #a07e20;
+  --color-blue-soft: #1a2d3a;
+}
+
 html {
   scroll-behavior: smooth;
 }

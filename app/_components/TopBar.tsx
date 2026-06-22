@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Button } from "./Button";
 import { InstagramIcon, MenuIcon, CloseIcon, MailIcon } from "./Icons";
 import { Logo } from "./Logo";
+import { ThemeToggle } from "./ThemeToggle";
 import { SITE, MAILTO_HREF } from "../_lib/site";
 import { cn } from "../_lib/cn";
 
@@ -83,6 +84,7 @@ export function TopBar() {
             <Button href={SITE.intakeFormUrl} size="md">
               Book a Meet &amp; Greet
             </Button>
+            <ThemeToggle />
             <a
               href={SITE.instagramUrl}
               target="_blank"
@@ -161,6 +163,9 @@ export function TopBar() {
             <Button href={SITE.instagramUrl} variant="secondary" size="lg" className="w-full">
               <InstagramIcon size={18} /> Instagram
             </Button>
+            <div className="flex justify-center pt-2">
+              <ThemeToggle />
+            </div>
           </div>
         </nav>
       </div>
