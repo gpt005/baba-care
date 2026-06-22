@@ -1,0 +1,41 @@
+{
+  "mode": "multi",
+  "pet_name": "Biscuit",
+  "overall_notes": "Biscuit was an absolute joy for the whole stay. She settled in quickly and loved her daily walks.",
+  "photos": [],
+  "days": [
+    {
+      "date": "2026-06-20",
+      "day_label": "Day 1",
+      "activities": ["Walk", "Feeding", "Snuggles"],
+      "food_level": "well",
+      "water_level": "well",
+      "pee_count": 4,
+      "poop_count": 1,
+      "mood": "calm",
+      "notes": "Settling in, a little shy at first."
+    },
+    {
+      "date": "2026-06-21",
+      "day_label": "Day 2",
+      "activities": ["Walk", "Play", "Feeding", "Outdoor"],
+      "food_level": "well",
+      "water_level": "well",
+      "pee_count": 5,
+      "poop_count": 2,
+      "mood": "playful",
+      "notes": "Totally relaxed and playful today!"
+    },
+    {
+      "date": "2026-06-22",
+      "day_label": "Day 3",
+      "activities": ["Walk", "Feeding", "Snuggles"],
+      "food_level": "some",
+      "water_level": "well",
+      "pee_count": 4,
+      "poop_count": 1,
+      "mood": "happy",
+      "notes": "Excited for pickup — tail wagging all morning."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "mode": "single",
+  "pet_name": "Biscuit",
+  "service_date": "2026-06-22",
+  "activities": ["Walk", "Play", "Feeding"],
+  "food_level": "well",
+  "water_level": "well",
+  "pee_count": 4,
+  "poop_count": 1,
+  "mood": "happy",
+  "notes": "Biscuit had a wonderful day! She loved her afternoon walk and played fetch in the backyard.",
+  "photos": []
+}

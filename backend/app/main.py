@@ -9,7 +9,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from mangum import Mangum
 
 from .pdf.invoice import build_invoice_pdf
-from .schemas import InvoiceRequest
+from .pdf.visit_report import build_visit_report_pdf
+from .schemas import InvoiceRequest, VisitReportRequest
 
 
 # Lambda's Python runtime only forwards WARNING+ by default; opt our app loggers
@@ -69,6 +70,25 @@ def create_invoice(payload: InvoiceRequest) -> Response:
         ch if ch.isalnum() or ch in "-_" else "_" for ch in payload.client
     )
     filename = f"invoice-{safe_client}.pdf"
+    return Response(
+        content=pdf_bytes,
+        media_type="application/pdf",
+        headers={"Content-Disposition": f'inline; filename="{filename}"'},
+    )
+
+
+@app.post(
+    "/visit-report",
+    dependencies=[Depends(require_api_key)],
+    response_class=Response,
+    responses={200: {"content": {"application/pdf": {}}}},
+)
+def create_visit_report(payload: VisitReportRequest) -> Response:
+    pdf_bytes = build_visit_report_pdf(payload)
+    safe_name = "".join(
+        ch if ch.isalnum() or ch in "-_" else "_" for ch in payload.pet_name
+    )
+    filename = f"report-{safe_name}.pdf"
     return Response(
         content=pdf_bytes,
         media_type="application/pdf",

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from decimal import Decimal
 from enum import Enum
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
@@ -79,3 +80,44 @@ class InvoiceRequest(BaseModel):
         if self.total is None:
             self.total = _q(subtotal - (subtotal * self.discount) + self.tip)
         return self
+
+
+# ── Visit Report ─────────────────────────────────────────────────────────────
+
+FoodLevel = Literal["well", "some", "skipped"]
+WaterLevel = Literal["well", "little", "not much"]
+MoodValue = Literal["happy", "playful", "calm", "tired", "anxious"]
+
+
+class DayEntry(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    date: str
+    day_label: str | None = None
+    activities: list[str] = []
+    food_level: FoodLevel
+    water_level: WaterLevel
+    pee_count: int = Field(default=0, ge=0)
+    poop_count: int = Field(default=0, ge=0)
+    mood: MoodValue
+    notes: str = ""
+
+
+class VisitReportRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    mode: Literal["single", "multi"]
+    pet_name: str = Field(min_length=1)
+    photos: list[str] = Field(default=[], max_length=3)
+    # single mode fields
+    service_date: str | None = None
+    activities: list[str] = []
+    food_level: FoodLevel | None = None
+    water_level: WaterLevel | None = None
+    pee_count: int = Field(default=0, ge=0)
+    poop_count: int = Field(default=0, ge=0)
+    mood: MoodValue | None = None
+    notes: str = ""
+    # multi mode fields
+    days: list[DayEntry] = []
+    overall_notes: str = ""

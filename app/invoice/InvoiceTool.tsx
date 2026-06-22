@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import Link from "next/link";
+import { LuArrowLeft, LuFilePlus } from "react-icons/lu";
 import { Logo } from "../_components/Logo";
 import { Button } from "../_components/Button";
 import { cn } from "../_lib/cn";
@@ -279,12 +280,17 @@ export function InvoiceTool() {
     }
   }
 
-  function handleMakeAnother() {
+  function handleBackToForm() {
     if (pdfUrl) URL.revokeObjectURL(pdfUrl);
     setPdfUrl(null);
     setPdfBlob(null);
     setSubmitError(null);
     setStatus("unlocked");
+  }
+
+  function handleMakeAnother() {
+    handleBackToForm();
+    setForm(INITIAL);
   }
 
   // Render the generated PDF (already in the browser) to a raster image and
@@ -377,16 +383,17 @@ export function InvoiceTool() {
             url={pdfUrl}
             filename={pdfFilename}
             onDownloadImage={downloadAsImage}
+            onBack={handleBackToForm}
             onMakeAnother={handleMakeAnother}
           />
         )}
 
         <footer className="pt-2 text-center">
           <Link
-            href="/"
+            href="/tools"
             className="inline-flex items-center gap-2 font-rounded text-sm font-semibold text-ink/60 hover:text-pink-deepest transition-colors"
           >
-            ← babapetcare.com
+            ← tools
           </Link>
         </footer>
       </div>
@@ -914,11 +921,13 @@ function PdfPreview({
   url,
   filename,
   onDownloadImage,
+  onBack,
   onMakeAnother,
 }: {
   url: string;
   filename: string;
   onDownloadImage: (fmt: "png" | "jpg") => Promise<void>;
+  onBack: () => void;
   onMakeAnother: () => void;
 }) {
   const [fmt, setFmt] = useState<"pdf" | "png" | "jpg">("png");
@@ -944,8 +953,26 @@ function PdfPreview({
   return (
     <Card>
       <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
-        <h1 className="font-display text-3xl text-pink-deepest">preview</h1>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={onBack}
+            className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3.5 py-2 font-rounded text-sm font-semibold text-ink/60 shadow-sm hover:text-pink-deepest hover:border-pink-deepest transition-colors"
+          >
+            <LuArrowLeft className="h-4 w-4" />
+            Edit
+          </button>
+          <h1 className="font-display text-3xl text-pink-deepest">preview</h1>
+        </div>
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onMakeAnother}
+            className="inline-flex items-center gap-1.5 rounded-full border border-ink/15 bg-cream px-3.5 py-2 font-rounded text-sm font-semibold text-ink/60 shadow-sm hover:text-pink-deepest hover:border-pink-deepest transition-colors"
+          >
+            <LuFilePlus className="h-4 w-4" />
+            New
+          </button>
           <label className="sr-only" htmlFor="download-format">
             Download format
           </label>
@@ -976,9 +1003,6 @@ function PdfPreview({
           >
             {downloading ? "Rendering…" : "Download"}
           </button>
-          <Button onClick={onMakeAnother} variant="secondary" size="md">
-            New invoice
-          </Button>
         </div>
       </div>
       <iframe

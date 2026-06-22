@@ -1,6 +1,6 @@
-# baba pet care — invoice PDF API
+# baba pet care — PDF API
 
-A Python FastAPI service that turns JSON into a branded PDF invoice. Designed to run on AWS Lambda behind a Function URL, but works the same way locally with `uvicorn`.
+A Python FastAPI service that generates branded PDF documents (invoices and visit reports). Designed to run on AWS Lambda behind a Function URL, but works the same way locally with `uvicorn`.
 
 ## Quick start (local)
 
@@ -13,14 +13,22 @@ export INVOICE_API_KEY=local-dev-secret
 uvicorn app.main:app --reload --port 8000
 ```
 
-Generate a sample invoice:
+Generate a sample invoice or visit report:
 
 ```bash
+# Invoice
 curl -X POST http://localhost:8000/invoice \
   -H 'Content-Type: application/json' \
   -H 'X-API-Key: local-dev-secret' \
   --data @tests/fixtures/sample_payload.json \
   --output /tmp/invoice.pdf && open /tmp/invoice.pdf
+
+# Visit report (single day)
+curl -X POST http://localhost:8000/visit-report \
+  -H 'Content-Type: application/json' \
+  -H 'X-API-Key: local-dev-secret' \
+  --data @tests/fixtures/visit_report_single.json \
+  --output /tmp/report.pdf && open /tmp/report.pdf
 ```
 
 Or use the Makefile: `make install && make dev` in one shell, `make sample` in another.
@@ -40,7 +48,7 @@ Request body — see [tests/fixtures/sample_payload.json](tests/fixtures/sample_
 | `pet_name` | string | Required. |
 | `pet_sex` | `"M"` or `"F"` | Required. Renders as `Leo (M)`. |
 | `breed` | string | Required. |
-| `birthday` | ISO date `YYYY-MM-DD` | Age computed at render time. |
+| `age_category` | `"junior"`, `"adult"`, or `"senior"` | Required. `junior`/`senior` appends a $5/service surcharge line automatically. |
 | `sterilization` | boolean | `true` = fixed checkbox; `false` = not-fixed checkbox. |
 | `service_date` | string | Free-text, supports ranges. |
 | `service_time_range` | string | e.g. `"8:00am – 8:30am"`. |
@@ -50,9 +58,65 @@ Request body — see [tests/fixtures/sample_payload.json](tests/fixtures/sample_
 | `subtotal`, `discount_amount`, `total` | decimal | Auto-computed if omitted. |
 | `payment_method`, `payment_date` | string | Optional. |
 
-Math: `subtotal = Σ(qty × unit_price)`; `discount_amount = subtotal × discount`; `total = subtotal × (1 − discount) + tip`.
+Math: `subtotal = Σ(qty × unit_price)`; `discount_amount = subtotal × discount`; `total = subtotal × (1 − discount) + tip`. The junior/senior surcharge is included in `services` before these totals are computed.
 
 Response: `application/pdf` binary.
+
+### `POST /visit-report`
+
+Headers: `Content-Type: application/json`, `X-API-Key: <shared secret>`.
+
+Generates a branded visit report PDF. Supports two modes via the `mode` field.
+
+**Single-day mode** (`"mode": "single"`) — one page summarizing a single visit:
+
+| Field | Type | Notes |
+|---|---|---|
+| `mode` | `"single"` | Required. |
+| `pet_name` | string | Required. |
+| `service_date` | string | Free-text date shown on the report. |
+| `activities` | array of strings | Any of: `Walk`, `Play`, `Feeding`, `Brushing`, `Bath`, `Snuggles`, `Outdoor`. |
+| `food_level` | `"well"`, `"some"`, or `"skipped"` | Required. |
+| `water_level` | `"well"`, `"little"`, or `"not much"` | Required. |
+| `pee_count` | integer ≥ 0 | Default `0`. |
+| `poop_count` | integer ≥ 0 | Default `0`. |
+| `mood` | `"happy"`, `"playful"`, `"calm"`, `"tired"`, or `"anxious"` | Required. |
+| `notes` | string | Optional sitter notes; word-wrapped on the PDF. |
+| `photos` | array of base64 strings (max 3) | Optional. Each entry is a base64-encoded image; rendered in a rounded photo strip. |
+
+See [tests/fixtures/visit_report_single.json](tests/fixtures/visit_report_single.json) for a complete example.
+
+**Multi-day mode** (`"mode": "multi"`) — a cover page followed by one card per day (2 cards/page):
+
+| Field | Type | Notes |
+|---|---|---|
+| `mode` | `"multi"` | Required. |
+| `pet_name` | string | Required. |
+| `days` | array of day objects | Required. See below. |
+| `overall_notes` | string | Shown on the cover page. |
+| `photos` | array of base64 strings (max 3) | Optional cover-page photos. |
+
+Each object in `days`:
+
+| Field | Type | Notes |
+|---|---|---|
+| `date` | string | Date string shown on the card. |
+| `day_label` | string | Optional label, e.g. `"Day 1"`. Shown as the card heading; `date` moves to a sub-line. |
+| `activities` | array of strings | Same values as single mode. |
+| `food_level` | `"well"`, `"some"`, or `"skipped"` | Required. |
+| `water_level` | `"well"`, `"little"`, or `"not much"` | Required. |
+| `pee_count` | integer ≥ 0 | Default `0`. |
+| `poop_count` | integer ≥ 0 | Default `0`. |
+| `mood` | `"happy"`, `"playful"`, `"calm"`, `"tired"`, or `"anxious"` | Required. |
+| `notes` | string | Truncated at 120 characters on the day card. |
+
+See [tests/fixtures/visit_report_multi.json](tests/fixtures/visit_report_multi.json) for a complete example.
+
+Response: `application/pdf` binary.
+
+### `GET /auth/check`
+
+Authenticated (`X-API-Key` required). Returns `{"ok": true}` if the key is valid, `401` otherwise. The front-end tools hub uses this to validate a stored password without generating a PDF.
 
 ### `GET /health`
 
