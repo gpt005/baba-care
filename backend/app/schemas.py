@@ -86,7 +86,7 @@ class InvoiceRequest(BaseModel):
 
 FoodLevel = Literal["well", "some", "skipped"]
 WaterLevel = Literal["well", "little", "not much"]
-MoodValue = Literal["happy", "playful", "calm", "tired", "anxious"]
+MoodValue = Literal["happy", "excited", "playful", "silly", "calm", "cuddly", "curious", "tired", "clingy"]
 
 
 class DayEntry(BaseModel):
