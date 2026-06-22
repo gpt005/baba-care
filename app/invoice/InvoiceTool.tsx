@@ -64,7 +64,7 @@ const INITIAL: FormState = {
 };
 
 const fieldStyle =
-  "w-full rounded-2xl border border-ink/15 bg-white px-4 py-2.5 font-body text-base text-ink " +
+  "w-full rounded-2xl border border-ink/15 bg-white dark:bg-white/10 px-4 py-2.5 font-body text-base text-ink " +
   "shadow-[inset_0_1px_2px_rgba(43,42,40,0.04)] " +
   "focus:outline-none focus:border-pink-deepest focus:ring-2 focus:ring-pink-deepest/20 " +
   "placeholder:text-ink/35";
@@ -635,7 +635,7 @@ function InvoiceForm({
                       "flex-1 cursor-pointer rounded-2xl border px-4 py-2.5 text-center font-rounded font-semibold transition-colors capitalize",
                       form.age_category === cat
                         ? "border-pink-deepest bg-pink-deepest text-cream"
-                        : "border-ink/15 bg-white text-ink/70 hover:border-pink-deepest/50",
+                        : "border-ink/15 bg-white dark:bg-white/10 text-ink/70 hover:border-pink-deepest/50",
                     )}
                   >
                     <input
@@ -662,7 +662,7 @@ function InvoiceForm({
                       "flex-1 cursor-pointer rounded-2xl border px-4 py-2.5 text-center font-rounded font-semibold transition-colors",
                       form.pet_sex === s
                         ? "border-pink-deepest bg-pink-deepest text-cream"
-                        : "border-ink/15 bg-white text-ink/70 hover:border-pink-deepest/50",
+                        : "border-ink/15 bg-white dark:bg-white/10 text-ink/70 hover:border-pink-deepest/50",
                     )}
                   >
                     <input
@@ -736,7 +736,7 @@ function InvoiceForm({
               return (
                 <div
                   key={idx}
-                  className="grid grid-cols-12 gap-2 items-end rounded-2xl bg-white/70 border border-ink/10 p-3"
+                  className="grid grid-cols-12 gap-2 items-end rounded-2xl bg-white/70 dark:bg-white/10 border border-ink/10 p-3"
                 >
                   <div className="col-span-12 md:col-span-6">
                     <label className={labelStyle}>Service</label>

@@ -117,7 +117,7 @@ const INITIAL_MULTI: MultiForm = {
 // ── shared styles ─────────────────────────────────────────────────────────────
 
 const fieldStyle =
-  "w-full rounded-2xl border border-ink/15 bg-white px-4 py-2.5 font-body text-base text-ink " +
+  "w-full rounded-2xl border border-ink/15 bg-white dark:bg-white/10 px-4 py-2.5 font-body text-base text-ink " +
   "shadow-[inset_0_1px_2px_rgba(43,42,40,0.04)] " +
   "focus:outline-none focus:border-pink-deepest focus:ring-2 focus:ring-pink-deepest/20 " +
   "placeholder:text-ink/35";
@@ -154,7 +154,7 @@ function Toggle3<T extends string>({
   onChange: (v: T) => void;
 }) {
   return (
-    <div className="flex rounded-2xl border border-ink/15 overflow-hidden bg-white shadow-[inset_0_1px_2px_rgba(43,42,40,0.04)]">
+    <div className="flex rounded-2xl border border-ink/15 overflow-hidden bg-white dark:bg-white/10 shadow-[inset_0_1px_2px_rgba(43,42,40,0.04)]">
       {options.map((opt) => (
         <button
           key={opt.value}
@@ -186,7 +186,7 @@ function MoodPicker({ value, onChange }: { value: MoodValue; onChange: (v: MoodV
             "flex flex-col items-center gap-0.5 rounded-2xl border px-3 py-2 transition-all",
             value === m.value
               ? "border-pink-deepest bg-pink-soft/40 shadow-sm"
-              : "border-ink/10 bg-white hover:border-pink-deep",
+              : "border-ink/10 bg-white dark:bg-white/10 hover:border-pink-deep",
           )}
         >
           <span className="text-xl">{m.emoji}</span>
@@ -215,7 +215,7 @@ function ActivitiesGrid({ checked, onChange }: { checked: string[]; onChange: (v
               "rounded-xl border px-3 py-2 font-rounded text-sm font-semibold transition-all",
               on
                 ? "border-pink-deepest bg-pink-deepest text-cream"
-                : "border-ink/10 bg-white text-ink/65 hover:border-pink-deep hover:text-ink",
+                : "border-ink/10 bg-white dark:bg-white/10 text-ink/65 hover:border-pink-deep hover:text-ink",
             )}
           >
             {act}
@@ -233,7 +233,7 @@ function CounterField({ label, value, onChange }: { label: string; value: string
       <button
         type="button"
         onClick={() => onChange(String(Math.max(0, Number(value) - 1)))}
-        className="h-8 w-8 rounded-full border border-ink/15 bg-white font-body text-lg text-ink/70 hover:text-pink-deepest transition-colors"
+        className="h-8 w-8 rounded-full border border-ink/15 bg-white dark:bg-white/10 font-body text-lg text-ink/70 hover:text-pink-deepest transition-colors"
       >
         −
       </button>
@@ -241,7 +241,7 @@ function CounterField({ label, value, onChange }: { label: string; value: string
       <button
         type="button"
         onClick={() => onChange(String(Number(value) + 1))}
-        className="h-8 w-8 rounded-full border border-ink/15 bg-white font-body text-lg text-ink/70 hover:text-pink-deepest transition-colors"
+        className="h-8 w-8 rounded-full border border-ink/15 bg-white dark:bg-white/10 font-body text-lg text-ink/70 hover:text-pink-deepest transition-colors"
       >
         +
       </button>
@@ -300,7 +300,7 @@ function PhotoUpload({ photos, onChange }: { photos: string[]; onChange: (v: str
           <button
             type="button"
             onClick={() => inputRef.current?.click()}
-            className="flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-ink/20 bg-white text-ink/45 hover:border-pink-deepest hover:text-pink-deepest transition-all"
+            className="flex h-20 w-20 flex-col items-center justify-center gap-1 rounded-2xl border-2 border-dashed border-ink/20 bg-white dark:bg-white/10 text-ink/45 hover:border-pink-deepest hover:text-pink-deepest transition-all"
           >
             <span className="text-xl">+</span>
             <span className="font-rounded text-xs">Add photo</span>
@@ -598,7 +598,7 @@ function DayCard({
   }
 
   return (
-    <div className="rounded-2xl border border-ink/10 bg-white shadow-sm overflow-hidden">
+    <div className="rounded-2xl border border-ink/10 bg-white dark:bg-white/10 shadow-sm overflow-hidden">
       <button
         type="button"
         onClick={() => setExpanded((x) => !x)}
@@ -969,7 +969,7 @@ export function VisitReportTool() {
           <Card>
             <h1 className="font-display text-3xl text-pink-deepest">new visit report</h1>
 
-            <div className="flex rounded-2xl border border-ink/15 overflow-hidden bg-white shadow-sm mt-6">
+            <div className="flex rounded-2xl border border-ink/15 overflow-hidden bg-white dark:bg-white/10 shadow-sm mt-6">
               {(["single", "multi"] as Mode[]).map((m) => (
                 <button
                   key={m}
