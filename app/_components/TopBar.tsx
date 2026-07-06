@@ -5,7 +5,7 @@ import { Button } from "./Button";
 import { InstagramIcon, MenuIcon, CloseIcon, MailIcon } from "./Icons";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
-import { SITE, MAILTO_HREF } from "../_lib/site";
+import { SITE, MAILTO_HREF, BOOKING_PAUSED } from "../_lib/site";
 import { cn } from "../_lib/cn";
 
 const NAV_LINKS = [
@@ -58,6 +58,20 @@ export function TopBar() {
             : "bg-cream/40 backdrop-blur-sm",
         )}
       >
+        {BOOKING_PAUSED && (
+          <div className="w-full bg-pink-soft border-b border-pink-deepest/20 py-2 px-4 text-center font-rounded text-xs font-semibold text-ink/80">
+            We&apos;re taking a short break and not accepting new bookings right now.{" "}
+            <a
+              href={SITE.instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline underline-offset-2 hover:text-pink-deepest transition-colors"
+            >
+              Follow us on Instagram
+            </a>{" "}
+            for updates.
+          </div>
+        )}
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 sm:px-6 lg:px-8 h-16 md:h-20">
           <Logo />
 
@@ -81,9 +95,11 @@ export function TopBar() {
               <MailIcon size={16} />
               {SITE.email}
             </a>
-            <Button href={SITE.intakeFormUrl} size="md">
-              Book a Meet &amp; Greet
-            </Button>
+            {!BOOKING_PAUSED && (
+              <Button href={SITE.intakeFormUrl} size="md">
+                Book a Meet &amp; Greet
+              </Button>
+            )}
             <ThemeToggle />
             <a
               href={SITE.instagramUrl}
@@ -97,9 +113,11 @@ export function TopBar() {
           </div>
 
           <div className="flex md:hidden items-center gap-2">
-            <Button href={SITE.intakeFormUrl} size="md" className="!px-4 !py-2 text-sm">
-              Book
-            </Button>
+            {!BOOKING_PAUSED && (
+              <Button href={SITE.intakeFormUrl} size="md" className="!px-4 !py-2 text-sm">
+                Book
+              </Button>
+            )}
             <button
               type="button"
               aria-label={open ? "Close menu" : "Open menu"}
@@ -154,9 +172,15 @@ export function TopBar() {
             ))}
           </ul>
           <div className="mt-8 space-y-3">
-            <Button href={SITE.intakeFormUrl} size="lg" className="w-full">
-              Book a Free Meet &amp; Greet
-            </Button>
+            {BOOKING_PAUSED ? (
+              <div className="w-full rounded-2xl border border-ink/15 bg-pink-soft/50 px-5 py-4 text-center font-rounded text-sm font-semibold text-ink/60">
+                Bookings paused — check Instagram for updates
+              </div>
+            ) : (
+              <Button href={SITE.intakeFormUrl} size="lg" className="w-full">
+                Book a Free Meet &amp; Greet
+              </Button>
+            )}
             <Button href={MAILTO_HREF} variant="secondary" size="lg" className="w-full">
               <MailIcon size={18} /> Email
             </Button>

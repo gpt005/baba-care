@@ -3,7 +3,7 @@ import { Container } from "../_components/Container";
 import { Button } from "../_components/Button";
 import { SpeechBubble } from "../_components/SpeechBubble";
 import { MailIcon, PawIcon } from "../_components/Icons";
-import { SITE, MAILTO_HREF } from "../_lib/site";
+import { SITE, MAILTO_HREF, BOOKING_PAUSED } from "../_lib/site";
 
 export function HeroSection() {
   return (
@@ -42,9 +42,15 @@ export function HeroSection() {
               sitting — with daily photo updates so you never miss a wag.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 items-center lg:items-start justify-center lg:justify-start">
-              <Button href={SITE.intakeFormUrl} size="lg">
-                Book a Free Meet &amp; Greet
-              </Button>
+              {BOOKING_PAUSED ? (
+                <span className="inline-flex items-center justify-center rounded-full border border-ink/20 bg-pink-soft/50 px-7 py-3.5 font-rounded text-base md:text-lg font-semibold text-ink/55 min-h-12">
+                  Not taking new bookings right now
+                </span>
+              ) : (
+                <Button href={SITE.intakeFormUrl} size="lg">
+                  Book a Free Meet &amp; Greet
+                </Button>
+              )}
               <Button href={MAILTO_HREF} variant="secondary" size="lg">
                 <MailIcon size={18} /> Email Us
               </Button>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { Logo } from "../_components/Logo";
 import { InstagramIcon, PawIcon } from "../_components/Icons";
-import { SITE, MAILTO_HREF } from "../_lib/site";
+import { SITE, MAILTO_HREF, BOOKING_PAUSED } from "../_lib/site";
 
 export const metadata: Metadata = {
   title: "links",
@@ -19,13 +19,13 @@ type LinkRow = {
 };
 
 const BOOK: LinkRow[] = [
-  {
+  ...(!BOOKING_PAUSED ? [{
     href: SITE.intakeFormUrl,
     label: "Book a free meet & greet",
     emoji: "🐾",
     highlight: true,
     external: true,
-  },
+  } satisfies LinkRow] : []),
   { href: "/", label: "Visit our website", emoji: "🏠" },
   {
     href: SITE.roverUrl,
@@ -36,7 +36,7 @@ const BOOK: LinkRow[] = [
 ];
 
 const CONTACT: LinkRow[] = [
-  { href: SITE.intakeFormUrl, label: "Booking form", emoji: "🐾", external: true },
+  ...(!BOOKING_PAUSED ? [{ href: SITE.intakeFormUrl, label: "Booking form", emoji: "🐾", external: true } satisfies LinkRow] : []),
   { href: MAILTO_HREF, label: SITE.email, emoji: "✉️" },
   {
     href: SITE.instagramUrl,
@@ -131,6 +131,11 @@ export default function LinksPage() {
           </a>
         </header>
 
+        {BOOKING_PAUSED && (
+          <div className="rounded-2xl border border-pink-deepest/20 bg-pink-soft/60 px-5 py-4 text-center font-rounded text-sm font-semibold text-ink/70">
+            We&apos;re taking a short break — not accepting new bookings right now. Check back soon!
+          </div>
+        )}
         <Group heading="Book with us" rows={BOOK} />
         <Group heading="Say hi" rows={CONTACT} />
         <Group heading="Shop our partners" rows={SHOP} />

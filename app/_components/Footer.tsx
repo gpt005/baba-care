@@ -2,7 +2,7 @@ import Link from "next/link";
 import { Container } from "./Container";
 import { Logo } from "./Logo";
 import { InstagramIcon, MailIcon, PawIcon, MapPinIcon } from "./Icons";
-import { SITE, MAILTO_HREF } from "../_lib/site";
+import { SITE, MAILTO_HREF, BOOKING_PAUSED } from "../_lib/site";
 
 const VISIT = [
   { href: "#services", label: "Services" },
@@ -52,11 +52,13 @@ export function Footer() {
               Get in touch
             </h3>
             <ul className="space-y-2">
-              <li>
-                <a className="inline-flex items-center gap-2 font-body text-sm text-ink/80 hover:text-pink-deepest transition-colors" href={SITE.intakeFormUrl} target="_blank" rel="noopener noreferrer">
-                  <PawIcon size={16} /> Booking form
-                </a>
-              </li>
+              {!BOOKING_PAUSED && (
+                <li>
+                  <a className="inline-flex items-center gap-2 font-body text-sm text-ink/80 hover:text-pink-deepest transition-colors" href={SITE.intakeFormUrl} target="_blank" rel="noopener noreferrer">
+                    <PawIcon size={16} /> Booking form
+                  </a>
+                </li>
+              )}
               <li>
                 <a className="inline-flex items-center gap-2 font-body text-sm text-ink/80 hover:text-pink-deepest transition-colors" href={MAILTO_HREF}>
                   <MailIcon size={16} /> {SITE.email}

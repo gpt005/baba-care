@@ -33,4 +33,6 @@ export const SITE = {
   ],
 } as const;
 
+export const BOOKING_PAUSED = true;
+
 export const MAILTO_HREF = `mailto:${SITE.email}`;
