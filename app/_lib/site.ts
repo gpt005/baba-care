@@ -33,6 +33,7 @@ export const SITE = {
   ],
 } as const;
 
-export const BOOKING_PAUSED = true;
+export const BOOKING_PAUSED = false;
+export const BOOKING_LIMITED = true;
 
 export const MAILTO_HREF = `mailto:${SITE.email}`;

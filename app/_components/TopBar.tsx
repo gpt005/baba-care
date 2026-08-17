@@ -5,7 +5,7 @@ import { Button } from "./Button";
 import { InstagramIcon, MenuIcon, CloseIcon, MailIcon } from "./Icons";
 import { Logo } from "./Logo";
 import { ThemeToggle } from "./ThemeToggle";
-import { SITE, MAILTO_HREF, BOOKING_PAUSED } from "../_lib/site";
+import { SITE, MAILTO_HREF, BOOKING_PAUSED, BOOKING_LIMITED } from "../_lib/site";
 import { cn } from "../_lib/cn";
 
 const NAV_LINKS = [
@@ -58,18 +58,18 @@ export function TopBar() {
             : "bg-cream/40 backdrop-blur-sm",
         )}
       >
-        {BOOKING_PAUSED && (
+        {BOOKING_LIMITED && (
           <div className="w-full bg-pink-soft border-b border-pink-deepest/20 py-2 px-4 text-center font-rounded text-xs font-semibold text-ink/80">
-            We&apos;re taking a short break and not accepting new bookings right now.{" "}
+            New client spots are limited —{" "}
             <a
-              href={SITE.instagramUrl}
+              href={SITE.intakeFormUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="underline underline-offset-2 hover:text-pink-deepest transition-colors"
             >
-              Follow us on Instagram
+              submit a booking form
             </a>{" "}
-            for updates.
+            and we&apos;ll reach out if it&apos;s a fit!
           </div>
         )}
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-5 sm:px-6 lg:px-8 h-16 md:h-20">
