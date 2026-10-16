@@ -108,7 +108,7 @@ export function PricingSection() {
         </div>
 
         <div className="mt-10 grid gap-3 text-center font-body text-sm text-ink/70 md:text-base">
-          <p>Holiday rate: +$5 to $10 per service</p>
+          <p>Holiday rate: up to +$25 per service</p>
           <p>
             Additional pet: +$5 to $25 per pet · Junior or Senior rate: +$5 per service
           </p>
